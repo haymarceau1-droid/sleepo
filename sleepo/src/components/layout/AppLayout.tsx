@@ -1,0 +1,19 @@
+import { ReactNode } from 'react';
+import { TopBar } from './TopBar';
+import { BottomNav } from './BottomNav';
+
+interface AppLayoutProps {
+  children: ReactNode;
+}
+
+export function AppLayout({ children }: AppLayoutProps) {
+  return (
+    <div className="min-h-screen bg-aave-bg flex flex-col">
+      <TopBar />
+      <main className="flex-1 overflow-y-auto pb-[max(66px,calc(50px+env(safe-area-inset-bottom,0px)+16px))]">
+        {children}
+      </main>
+      <BottomNav />
+    </div>
+  );
+}
