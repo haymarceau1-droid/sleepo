@@ -1,17 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGameStore } from '../store/useGameStore';
-import { GlassCard } from '../components/ui/GlassCard';
-
-const mockFriends = [
-  { name: 'Thomas', hours: 7.5, emoji: '🐺' },
-  { name: 'Camille', hours: 6.8, emoji: '🦉' },
-  { name: 'Lucas', hours: 8.2, emoji: '🦊' },
-];
+import { Starfield } from '../components/ui/Starfield';
 
 export function Morning() {
+  const navigate = useNavigate();
   const answers = useGameStore((s) => s.answers);
-  const streak = useGameStore((s) => s.streak);
   const rootRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -20,11 +15,16 @@ export function Morning() {
     if (!el) return;
 
     tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
-      .fromTo(el.querySelectorAll('.aa-card'),
-        { opacity: 0, y: 18, scale: 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.12 },
-        '-=0.2'
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.5 })
+      .fromTo(el.querySelectorAll('.aa-garden-item'),
+        { opacity: 0, scale: 0, y: 20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'back.out(1.7)' },
+        '-=0.3'
+      )
+      .fromTo(el.querySelector('.aa-cta'),
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        '-=0.1'
       );
 
     return () => {
@@ -32,72 +32,59 @@ export function Morning() {
     };
   }, []);
 
-  const maxHours = Math.max(...mockFriends.map((f) => f.hours));
+  const guardianEmoji = () => {
+    switch (answers.guardian) {
+      case 'hibou': return '🦉';
+      case 'renard': return '🦊';
+      case 'chat': return '🐱';
+      default: return '🌙';
+    }
+  };
+
+  const guardianText = () => {
+    switch (answers.guardian) {
+      case 'hibou': return 'petit hibou';
+      case 'renard': return 'petit renard';
+      case 'chat': return 'petit chat';
+      default: return 'aventurier·ère';
+    }
+  };
 
   return (
-    <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
-      <GlassCard className="p-[22px] aa-card">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-[42px] h-[42px] rounded-full bg-[#6247AA]/15 flex items-center justify-center text-[20px]">
-            📊
-          </div>
-          <h3 className="text-[16px] font-semibold text-white/90">Statistiques</h3>
-        </div>
+    <>
+      <Starfield />
+      <div ref={rootRef} className="flex flex-col items-center px-4 pt-8 pb-8 min-h-[80vh] justify-center relative z-10">
+        <div className="text-5xl mb-4 animate-float">{guardianEmoji()}</div>
 
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="bg-white/[0.02] rounded-[12px] p-3 text-center">
-            <p className="text-[24px] font-bold text-[#a06cd5]">{streak.currentStreak}</p>
-            <p className="text-[10px] text-white/35 mt-1 uppercase tracking-[0.04em]">Série</p>
-          </div>
-          <div className="bg-white/[0.02] rounded-[12px] p-3 text-center">
-            <p className="text-[24px] font-bold text-[#a06cd5]">
-              {answers.idealBedtime ?? '-'}<span className="text-[14px] text-white/40">h</span>
-            </p>
-            <p className="text-[10px] text-white/35 mt-1 uppercase tracking-[0.04em]">Coucher</p>
-          </div>
-          <div className="bg-white/[0.02] rounded-[12px] p-3 text-center">
-            <p className="text-[24px] font-bold text-white/80">{streak.longestStreak}</p>
-            <p className="text-[10px] text-white/35 mt-1 uppercase tracking-[0.04em]">Record</p>
-          </div>
-        </div>
+        <h1 className="text-[28px] font-bold text-white mb-2 text-center">
+          Bonjour, {guardianText()}.
+        </h1>
 
-        <div className="bg-[#6247AA]/10 rounded-[10px] p-3">
-          <p className="text-[12px] text-[#e2cfea] text-center leading-relaxed">
-            {streak.currentStreak > 0
-              ? `🔥 ${streak.currentStreak} nuits d'affilée. Continue comme ça !`
-              : "🌱 Pas de pression. Ce soir est une nouvelle chance."}
+        <div className="max-w-sm text-center mb-8">
+          <p className="text-[15px] text-white/60 leading-relaxed">
+            Tu as posé tes écrans hier soir, ton esprit a dormi 7h15 dans le calme.
+          </p>
+          <p className="text-[15px] text-white/60 leading-relaxed mt-2">
+            Ton jardin gagne de nouvelles étoiles !
           </p>
         </div>
-      </GlassCard>
 
-      <GlassCard className="p-[22px] aa-card">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-[42px] h-[42px] rounded-full bg-[#6247AA]/15 flex items-center justify-center text-[20px]">
-            👥
-          </div>
-          <h3 className="text-[16px] font-semibold text-white/90">Score des amis</h3>
+        <div className="flex items-center justify-center gap-3 mb-8 py-6 px-8 rounded-[20px] bg-white/[0.02]">
+          <span className="text-3xl aa-garden-item">🌱</span>
+          <span className="text-3xl aa-garden-item" style={{ animationDelay: '0.15s' }}>🌿</span>
+          <span className="text-3xl aa-garden-item" style={{ animationDelay: '0.3s' }}>🌸</span>
+          <span className="text-3xl aa-garden-item" style={{ animationDelay: '0.45s' }}>⭐</span>
+          <span className="text-3xl aa-garden-item" style={{ animationDelay: '0.6s' }}>🌙</span>
         </div>
 
-        <div className="space-y-3">
-          {mockFriends.map((friend) => (
-            <div key={friend.name} className="flex items-center gap-3">
-              <span className="text-[16px] w-[24px] text-center">{friend.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[12px] font-medium text-white/70">{friend.name}</span>
-                  <span className="text-[11px] text-white/40">{friend.hours}h</span>
-                </div>
-                <div className="w-full h-[5px] rounded-full bg-white/[0.04] overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#6247AA] to-[#a06cd5]"
-                    style={{ width: `${(friend.hours / maxHours) * 100}%`, transition: 'width 0.8s ease 0.3s' }}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
-    </div>
+        <button
+          onClick={() => navigate('/home')}
+          className="aa-cta w-full max-w-sm py-4 rounded-[14px] bg-gradient-to-r from-[#6247AA] to-[#a06cd5] text-white font-bold text-base
+            shadow-lg shadow-[#6247AA]/30 hover:from-[#a06cd5] hover:to-[#e2cfea] transition-all duration-300 active:scale-[0.97]"
+        >
+          Cultiver mon jardin 🏞️
+        </button>
+      </div>
+    </>
   );
 }

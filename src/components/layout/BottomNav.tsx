@@ -5,7 +5,7 @@ import gsap from 'gsap';
 const tabs = [
   {
     id: 'home',
-    label: 'Accueil',
+    label: 'Jardin',
     path: '/home',
     icon: (active: boolean) => (
       <svg width="26" height="26" viewBox="0 0 24 24" fill={active ? 'white' : 'none'} stroke="white" strokeWidth={active ? 0 : 1.5} strokeLinecap="round" strokeLinejoin="round">
@@ -14,19 +14,19 @@ const tabs = [
     ),
   },
   {
-    id: 'focus',
-    label: 'Focus',
-    path: '/evening',
+    id: 'stats',
+    label: 'Sommeil',
+    path: '/stats',
     icon: (active: boolean) => (
       <svg width="26" height="26" viewBox="0 0 24 24" fill={active ? 'white' : 'none'} stroke="white" strokeWidth={active ? 0 : 1.5} strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
     ),
   },
   {
     id: 'profil',
-    label: 'Bilan',
-    path: '/morning',
+    label: 'Profil',
+    path: '/profil',
     icon: (active: boolean) => (
       <svg width="26" height="26" viewBox="0 0 24 24" fill={active ? 'white' : 'none'} stroke="white" strokeWidth={active ? 0 : 1.5} strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
@@ -49,11 +49,13 @@ export function BottomNav() {
     );
   }, []);
 
+  const mainTabs = tabs;
+
   return (
     <nav ref={navRef} className="fixed bottom-0 left-0 right-0 z-40 safe-bottom">
       <div className="bg-[#102b3f]/92 border-t border-white/[0.04] backdrop-blur-[40px]">
         <div className="h-[56px] flex items-center justify-around px-2 pb-[max(0px,env(safe-area-inset-bottom,0px))]">
-          {tabs.map((tab) => {
+          {mainTabs.map((tab) => {
             const active = location.pathname === tab.path;
             return (
               <button

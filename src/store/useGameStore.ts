@@ -10,6 +10,7 @@ interface GameStore extends GameState {
   completeOnboarding: () => void;
   setScreen: (screen: AppScreen) => void;
   reset: () => void;
+  setProfile: (profile: Partial<GameState['profile']>) => void;
 }
 
 const initialState: GameState = {
@@ -18,14 +19,20 @@ const initialState: GameState = {
   currentQuestionIndex: 0,
   answers: {
     guardian: null,
-    eveningEnergy: 5,
-    idealBedtime: 22.5,
-    preferredRitual: '',
-    sleepAmbiance: '',
-    stressLevel: 5,
     mainGoal: '',
-    preferredSound: '',
+    eveningEnergy: 5,
+    screenTime: '',
+    noScreenTime: 30,
+    stimulants: [],
+    roomEnvironment: '',
+    idealWakeUp: '07:30',
+    socialMode: '',
     charterSigned: false,
+  },
+  profile: {
+    pseudo: 'Petit Hibou',
+    guardianLevel: 1,
+    badges: [],
   },
   garden: {
     seedsPlanted: 0,
@@ -33,8 +40,8 @@ const initialState: GameState = {
     flowersBloomed: 0,
   },
   streak: {
-    currentStreak: 0,
-    longestStreak: 0,
+    currentStreak: 4,
+    longestStreak: 12,
     jokerAvailable: true,
     jokerUsedThisWeek: false,
   },
@@ -74,6 +81,11 @@ export const useGameStore = create<GameStore>()(
         set({ currentScreen: screen }),
 
       reset: () => set({ ...initialState }),
+
+      setProfile: (profile) =>
+        set((state) => ({
+          profile: { ...state.profile, ...profile },
+        })),
     }),
     {
       name: 'sleepo-game-state',

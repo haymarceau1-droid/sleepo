@@ -10,10 +10,16 @@ const mockFriendMissions = [
   { name: 'Lucas', mission: '📵 Écrans éteints', done: true },
 ];
 
+const rituals = [
+  { key: 'tiroir', emoji: '📱', title: 'Le rituel du tiroir', desc: 'Glisse ton téléphone dans un tiroir à 22h pour libérer ta table de chevet.' },
+  { key: 'lecture', emoji: '📖', title: 'Lecture du soir', desc: 'Quelques pages pour calmer ton esprit avant la nuit.' },
+  { key: 'meditation', emoji: '🧘', title: 'Méditation guidée', desc: '5 minutes de respiration pour apaiser le mental.' },
+];
+
 export function Evening() {
-  const answers = useGameStore((s) => s.answers);
   const streak = useGameStore((s) => s.streak);
   const [jokerUsed, setJokerUsed] = useState(false);
+  const [currentRitual, setCurrentRitual] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -21,6 +27,10 @@ export function Evening() {
     if (streak.jokerAvailable && !jokerUsed) {
       setJokerUsed(true);
     }
+  };
+
+  const handleChangeMission = () => {
+    setCurrentRitual((prev) => (prev + 1) % rituals.length);
   };
 
   useEffect(() => {
@@ -45,62 +55,40 @@ export function Evening() {
     };
   }, []);
 
-  const ritualEmoji = () => {
-    switch (answers.preferredRitual) {
-      case 'lecture': return '📖';
-      case 'musique': return '🎵';
-      case 'meditation': return '🧘';
-      case 'ecriture': return '✍️';
-      case 'the': return '🍵';
-      default: return '🌙';
-    }
-  };
-
-  const ritualLabel = () => {
-    switch (answers.preferredRitual) {
-      case 'lecture': return 'Lecture 15 min';
-      case 'musique': return 'Musique douce';
-      case 'meditation': return 'Méditation';
-      case 'ecriture': return 'Écrire dans ton journal';
-      case 'the': return 'Infusion du soir';
-      default: return 'Tout éteindre à 22h';
-    }
-  };
+  const ritual = rituals[currentRitual];
 
   return (
-    <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
-      <GlassCard className="p-[16px] flex items-center justify-between aa-card">
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-2.5">
-            <div className="w-[10px] h-[10px] rounded-full bg-[#a06cd5] shadow-[0_0_12px_rgba(160,108,213,0.3)] animate-breathe" />
-            <span className="text-[12px] font-medium text-white/90">Statut du soir</span>
-          </div>
-        </div>
-        <span className="text-[10px] font-semibold px-3 py-1 rounded-full bg-[#6247aa]/15 text-[#e2cfea]">
-          Prêt
-        </span>
-      </GlassCard>
+    <div ref={rootRef} className="flex flex-col px-4 pt-3 pb-4 gap-[11px]">
+      <h2 className="text-[22px] font-bold text-white mb-1 aa-card">Préparer la nuit.</h2>
 
+      {/* La Carte Rituel */}
       <GlassCard className="p-[22px] flex flex-col items-center text-center aa-card">
-        <div className="w-[70px] h-[70px] rounded-full bg-[#6247aa]/10 flex items-center justify-center text-[34px] mb-3.5 animate-float" style={{ animationDelay: '0.3s' }}>
-          {ritualEmoji()}
+        <div className="w-[80px] h-[80px] rounded-full bg-[#6247aa]/10 flex items-center justify-center text-[40px] mb-4 animate-float" style={{ animationDelay: '0.3s' }}>
+          {ritual.emoji}
         </div>
-        <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-white mb-1.5">La Carte Mission</h3>
-        <p className="text-[14px] text-white/80 mb-1">{ritualLabel()}</p>
-        <p className="text-[12px] text-white/35 max-w-[260px] leading-relaxed">
-          {jokerUsed
-            ? 'Joker activé — cette mission est optionnelle.'
-            : 'Une micro-action pour préparer ton corps et ton esprit au sommeil.'}
+        <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-white mb-2">{ritual.title}</h3>
+        <p className="text-[14px] text-white/70 leading-relaxed mb-4">
+          {ritual.desc}
         </p>
         {jokerUsed && (
-          <div className="mt-3.5 px-3 py-1.5 rounded-full bg-[#6247aa]/15 text-[#e2cfea] text-[12px] font-medium">
-            🃏 Joker activé
+          <div className="px-4 py-2 rounded-full bg-[#6247aa]/15 text-[#e2cfea] text-[12px] font-medium">
+            🃏 Joker activé — mission optionnelle
           </div>
         )}
       </GlassCard>
 
+      {/* Actions */}
       <div className="flex flex-col gap-[7px]">
-        <GlassButton variant="dark" className="w-full">
+        <GlassButton
+          onClick={() => {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+          }}
+          className="w-full h-[54px] text-[16px]"
+        >
+          🌙 Je relève le défi
+        </GlassButton>
+        <GlassButton variant="dark" onClick={handleChangeMission} className="w-full">
           Choisir une autre mission
         </GlassButton>
         <GlassButton
@@ -113,12 +101,12 @@ export function Evening() {
         </GlassButton>
       </div>
 
+      {/* Social feed */}
       <GlassCard className="p-[18px] aa-card">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[13px] font-semibold text-white/80">Zone social</h3>
-          <span className="text-[10px] text-white/30">{mockFriendMissions.filter(f => f.done).length}/{mockFriendMissions.length} faits</span>
+          <h3 className="text-[13px] font-semibold text-white/80">Voir les missions des amis</h3>
+          <span className="text-[10px] text-white/30">{mockFriendMissions.filter(f => f.done).length}/{mockFriendMissions.length}</span>
         </div>
-        <p className="text-[11px] text-white/40 mb-3">Voir les missions des amis</p>
         <div className="space-y-[10px]">
           {mockFriendMissions.map((friend) => (
             <div key={friend.name} className="flex items-center justify-between py-1">

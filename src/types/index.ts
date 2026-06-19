@@ -1,4 +1,4 @@
-export type Guardian = 'loup' | 'hibou' | 'renard' | 'cerf' | 'ours';
+export type Guardian = 'hibou' | 'renard' | 'chat';
 
 export type QuestionKind = 'narrative' | 'choice' | 'slider' | 'confirm';
 
@@ -26,14 +26,21 @@ export interface OnboardingQuestion {
 
 export interface UserAnswers {
   guardian: Guardian | null;
-  eveningEnergy: number;
-  idealBedtime: number;
-  preferredRitual: string;
-  sleepAmbiance: string;
-  stressLevel: number;
   mainGoal: string;
-  preferredSound: string;
+  eveningEnergy: number;
+  screenTime: string;
+  noScreenTime: number;
+  stimulants: string[];
+  roomEnvironment: string;
+  idealWakeUp: string;
+  socialMode: string;
   charterSigned: boolean;
+}
+
+export interface UserProfile {
+  pseudo: string;
+  guardianLevel: number;
+  badges: string[];
 }
 
 export type GardenState = {
@@ -49,13 +56,14 @@ export interface StreakData {
   jokerUsedThisWeek: boolean;
 }
 
-export type AppScreen = 'onboarding' | 'home' | 'morning' | 'evening' | 'sleepcircle';
+export type AppScreen = 'onboarding' | 'home' | 'morning' | 'evening' | 'sleepcircle' | 'stats' | 'profil' | 'settings';
 
 export interface GameState {
   onboardingComplete: boolean;
   currentScreen: AppScreen;
   currentQuestionIndex: number;
   answers: Partial<UserAnswers>;
+  profile: UserProfile;
   garden: GardenState;
   streak: StreakData;
 }

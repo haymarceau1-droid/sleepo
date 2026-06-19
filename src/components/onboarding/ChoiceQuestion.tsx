@@ -4,15 +4,31 @@ import { OnboardingQuestion, ChoiceOption } from '../../types';
 interface ChoiceQuestionProps {
   question: OnboardingQuestion;
   onSelect: (value: string) => void;
+  onMultiDone?: (values: string[]) => void;
   currentValue?: string;
 }
 
-export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuestionProps) {
+export function ChoiceQuestion({ question, onSelect, onMultiDone, currentValue }: ChoiceQuestionProps) {
   const [selected, setSelected] = useState<string | null>(currentValue ?? null);
+  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  const isMulti = question.id === 6;
 
   const handleSelect = (value: string) => {
-    setSelected(value);
-    setTimeout(() => onSelect(value), 300);
+    if (isMulti) {
+      setMultiSelected((prev) =>
+        prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+      );
+    } else {
+      setSelected(value);
+      setTimeout(() => onSelect(value), 300);
+    }
+  };
+
+  const handleMultiDone = () => {
+    if (multiSelected.length > 0 && onMultiDone) {
+      onMultiDone(multiSelected);
+    }
   };
 
   return (
@@ -25,7 +41,9 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
 
       <div className="flex-1 grid gap-3">
         {(question.choices ?? []).map((choice: ChoiceOption) => {
-          const isSelected = selected === choice.value;
+          const isSelected = isMulti
+            ? multiSelected.includes(choice.value)
+            : selected === choice.value;
           return (
             <button
               key={choice.value}
@@ -55,6 +73,20 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
           );
         })}
       </div>
+
+      {isMulti && (
+        <button
+          onClick={handleMultiDone}
+          disabled={multiSelected.length === 0}
+          className={`mt-6 w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            multiSelected.length > 0
+              ? 'bg-gradient-to-r from-[#6247AA] to-[#a06cd5] text-white shadow-lg shadow-[#6247AA]/20 hover:from-[#a06cd5] hover:to-[#e2cfea]'
+              : 'bg-white/[0.04] text-white/20 cursor-not-allowed'
+          }`}
+        >
+          Continuer ({multiSelected.length} sélectionné{multiSelected.length > 1 ? 's' : ''})
+        </button>
+      )}
     </div>
   );
 }

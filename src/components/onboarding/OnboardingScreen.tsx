@@ -1,15 +1,24 @@
-import { useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { onboardingQuestions, totalQuestions } from '../../data/onboarding';
 
-import { VisualFeedback } from './VisualFeedback';
-import { NarrativeStep } from './NarrativeStep';
+import { WelcomePage } from './WelcomePage';
 import { ChoiceQuestion } from './ChoiceQuestion';
 import { SliderQuestion } from './SliderQuestion';
 import { ConfirmStep } from './ConfirmStep';
 import { Starfield } from '../ui/Starfield';
 
+const rewardMilestones: { threshold: number; message: string }[] = [
+  { threshold: 1, message: 'Graine obtenue ! 🌱' },
+  { threshold: 3, message: 'Pousse éclose ! 🌿' },
+  { threshold: 5, message: 'Fleur épanouie ! 🌸' },
+  { threshold: 7, message: 'Arbre planté ! 🌳' },
+  { threshold: 9, message: 'Jardin enchanté ! ✨' },
+];
+
 export function OnboardingScreen() {
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [rewardMessage, setRewardMessage] = useState<string | null>(null);
   const currentIndex = useGameStore((s) => s.currentQuestionIndex);
   const setAnswer = useGameStore((s) => s.setAnswer);
   const nextQuestion = useGameStore((s) => s.nextQuestion);
@@ -18,47 +27,68 @@ export function OnboardingScreen() {
   const answers = useGameStore((s) => s.answers);
 
   const question = onboardingQuestions[currentIndex];
-  const isFirst = currentIndex === 0;
-  const isLast = currentIndex === totalQuestions - 1;
+
+  const displayIndex = showWelcome ? -1 : currentIndex;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentIndex, showWelcome]);
+
+  useEffect(() => {
+    const milestone = rewardMilestones.find((m) => m.threshold === currentIndex);
+    if (milestone) {
+      setRewardMessage(milestone.message);
+      const timer = setTimeout(() => setRewardMessage(null), 2500);
+      return () => clearTimeout(timer);
+    }
   }, [currentIndex]);
 
-  const handleNext = useCallback(() => {
-    nextQuestion();
-  }, [nextQuestion]);
+  const handleWelcomeDone = useCallback(() => {
+    setShowWelcome(false);
+  }, []);
 
   const handlePrev = useCallback(() => {
+    if (displayIndex <= 0) {
+      setShowWelcome(true);
+      return;
+    }
     prevQuestion();
-  }, [prevQuestion]);
+  }, [displayIndex, prevQuestion]);
 
   const handleChoice = useCallback(
     (value: string) => {
-      if (question.id === 2) {
+      if (question.id === 1) {
         setAnswer('guardian', value as any);
-      } else if (question.id === 5) {
-        setAnswer('preferredRitual', value);
-      } else if (question.id === 6) {
-        setAnswer('sleepAmbiance', value);
-      } else if (question.id === 8) {
+      } else if (question.id === 2) {
         setAnswer('mainGoal', value);
+      } else if (question.id === 4) {
+        setAnswer('screenTime', value);
+      } else if (question.id === 5) {
+        setAnswer('noScreenTime', parseInt(value));
+      } else if (question.id === 7) {
+        setAnswer('roomEnvironment', value);
+      } else if (question.id === 8) {
+        setAnswer('idealWakeUp', value);
       } else if (question.id === 9) {
-        setAnswer('preferredSound', value);
+        setAnswer('socialMode', value);
       }
       setTimeout(() => nextQuestion(), 350);
     },
     [question, nextQuestion, setAnswer]
   );
 
+  const handleMultiChoice = useCallback(
+    (values: string[]) => {
+      setAnswer('stimulants', values);
+      setTimeout(() => nextQuestion(), 350);
+    },
+    [nextQuestion, setAnswer]
+  );
+
   const handleSliderChange = useCallback(
     (value: number) => {
       if (question.id === 3) {
         setAnswer('eveningEnergy', value);
-      } else if (question.id === 4) {
-        setAnswer('idealBedtime', value);
-      } else if (question.id === 7) {
-        setAnswer('stressLevel', value);
       }
     },
     [question.id, setAnswer]
@@ -75,25 +105,28 @@ export function OnboardingScreen() {
 
   const getSliderValue = () => {
     if (question.id === 3) return answers.eveningEnergy ?? 5;
-    if (question.id === 4) return answers.idealBedtime ?? 22.5;
-    if (question.id === 7) return answers.stressLevel ?? 5;
     return 5;
   };
 
+  if (showWelcome) {
+    return (
+      <div className="min-h-screen flex flex-col bg-midnight relative">
+        <Starfield />
+        <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12 relative z-10">
+          <WelcomePage onStart={handleWelcomeDone} />
+        </div>
+      </div>
+    );
+  }
+
   const renderQuestion = () => {
     switch (question.kind) {
-      case 'narrative':
-        return (
-          <NarrativeStep
-            question={question}
-            onContinue={isLast ? undefined : handleNext}
-          />
-        );
       case 'choice':
         return (
           <ChoiceQuestion
             question={question}
             onSelect={handleChoice}
+            onMultiDone={handleMultiChoice}
           />
         );
       case 'slider':
@@ -136,14 +169,14 @@ export function OnboardingScreen() {
     <div className="min-h-screen flex flex-col bg-midnight relative">
       <Starfield />
       <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12 relative z-10">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-[36px] h-[36px] rounded-full bg-gradient-to-br from-[#6247AA] to-[#a06cd5] flex items-center justify-center">
               <span className="text-[16px]">🌙</span>
             </div>
             <span className="text-sm font-semibold text-white tracking-tight">Sleepo</span>
           </div>
-          {!isFirst && (
+          {displayIndex > 0 && (
             <button
               onClick={handlePrev}
               className="text-[#a06cd5] hover:text-[#e2cfea] text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.03]"
@@ -153,28 +186,41 @@ export function OnboardingScreen() {
           )}
         </div>
 
-        <div className="mb-6 flex items-center gap-2 justify-center">
-          {Array.from({ length: totalQuestions }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-[6px] rounded-full transition-all duration-500 ${
-                i <= currentIndex
-                  ? 'w-[24px] bg-gradient-to-r from-[#6247AA] to-[#a06cd5]'
-                  : 'w-[6px] bg-white/[0.08]'
-              }`}
-            />
-          ))}
+        {/* Star gauge progress */}
+        <div className="mb-5 flex flex-col items-center gap-1.5">
+          <div className="flex items-center gap-1 w-full max-w-[280px]">
+            <span className="text-[10px]">🌙</span>
+            <div className="flex-1 h-[5px] rounded-full bg-white/[0.06] overflow-hidden relative">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#6247AA] to-[#a06cd5] transition-all duration-500 ease-out"
+                style={{ width: `${(displayIndex / (totalQuestions - 1)) * 100}%` }}
+              />
+              <div
+                className="absolute top-1/2 -translate-y-1/2 text-[10px] transition-all duration-500 ease-out"
+                style={{ left: `${(displayIndex / (totalQuestions - 1)) * 100}%` }}
+              >
+                ⭐
+              </div>
+            </div>
+            <span className="text-[10px]">⭐</span>
+          </div>
+          <span className="text-[9px] text-white/25 font-medium">
+            Étape {displayIndex + 1}/{totalQuestions}
+          </span>
         </div>
 
-        {currentIndex > 0 && (
-          <VisualFeedback question={question} currentIndex={currentIndex} />
+        {/* Reward message */}
+        {rewardMessage && (
+          <div className="mb-3 py-2 px-4 rounded-full bg-[#6247AA]/15 border border-[#6247AA]/20 text-center animate-glass-slide-up">
+            <span className="text-[12px] text-[#e2cfea] font-medium">{rewardMessage}</span>
+          </div>
         )}
 
         <div
           key={currentIndex}
           className="flex-1 animate-glass-fade"
         >
-          {currentIndex > 0 && question.kind !== 'confirm' && (
+          {displayIndex >= 0 && question.kind !== 'confirm' && (
             <h2 className="text-2xl font-semibold text-white mb-2 leading-snug">
               {question.title}
             </h2>
