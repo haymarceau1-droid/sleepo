@@ -51,7 +51,7 @@ export function BottomNav() {
 
   return (
     <nav ref={navRef} className="fixed bottom-0 left-0 right-0 z-40 safe-bottom">
-      <div className="bg-[#062726]/92 border-t border-white/[0.04] backdrop-blur-[40px]">
+      <div className="bg-[#102b3f]/92 border-t border-white/[0.04] backdrop-blur-[40px]">
         <div className="h-[56px] flex items-center justify-around px-2 pb-[max(0px,env(safe-area-inset-bottom,0px))]">
           {tabs.map((tab) => {
             const active = location.pathname === tab.path;

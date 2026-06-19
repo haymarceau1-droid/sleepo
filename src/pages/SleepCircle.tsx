@@ -78,7 +78,7 @@ export function SleepCircle() {
                   }`}>
                     {friend.guardian}
                   </div>
-                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#062726] ${
+                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#102b3f] ${
                     friend.online ? 'bg-[#a06cd5] shadow-[0_0_6px_rgba(160,108,213,0.4)]' : 'bg-white/[0.08]'
                   }`} />
                 </div>
