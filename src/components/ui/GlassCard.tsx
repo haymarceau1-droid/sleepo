@@ -14,15 +14,6 @@ export function GlassCard({ children, className = '', interactive = false, as: T
 
   return (
     <GlassSurface as={Tag} onClick={onClick} className={`glass-card ${cursor} ${className}`} cornerRadius={20}>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: 20,
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 40%)',
-          pointerEvents: 'none',
-        }}
-      />
       {children}
     </GlassSurface>
   );
