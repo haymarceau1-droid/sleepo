@@ -16,13 +16,13 @@
   body {
     @apply bg-aave-bg text-white min-h-screen overflow-x-hidden;
     background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(147, 51, 234, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.04) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 50%, rgba(98, 71, 170, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(124, 92, 191, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(147, 51, 234, 0.04) 0%, transparent 50%);
   }
 
   ::selection {
-    @apply bg-amber-500/25 text-white;
+    @apply bg-[#6247AA]/30 text-white;
   }
 }
 
@@ -65,11 +65,11 @@
 
   .glass-button {
     @apply rounded-[14px] font-semibold text-[15px] tracking-[-0.01em] transition-all duration-200;
-    background: rgba(0, 122, 255, 0.85);
+    background: rgba(98, 71, 170, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 0.5px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(98, 71, 170, 0.25);
   }
 
   .glass-button:active {
@@ -135,8 +135,8 @@
   }
 
   .glass-input:focus {
-    border-color: rgba(251, 191, 36, 0.3);
-    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.06);
+    border-color: rgba(98, 71, 170, 0.3);
+    box-shadow: 0 0 0 3px rgba(98, 71, 170, 0.06);
   }
 }
 
@@ -171,8 +171,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(251, 191, 36, 0.08); }
-  50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+  0%, 100% { box-shadow: 0 0 8px rgba(98, 71, 170, 0.08); }
+  50% { box-shadow: 0 0 20px rgba(98, 71, 170, 0.2); }
 }
 
 @keyframes shimmer {
