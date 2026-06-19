@@ -30,7 +30,9 @@
   .glass-card {
     position: relative;
     border-radius: 20px;
-    background: #131627;
+    background: rgba(19, 22, 39, 0.7);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.04);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
