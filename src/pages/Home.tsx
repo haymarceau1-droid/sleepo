@@ -18,7 +18,7 @@ const mockFriends = [
 ];
 
 function SleepChart({ data, color, label }: { data: number[]; color: string; label: string }) {
-  const w = 280, h = 90, px = 20, py = 8;
+  const w = 320, h = 100, px = 24, py = 10;
   const iw = w - px * 2, ih = h - py * 2;
   const max = Math.max(...data);
   const min = Math.min(...data);
@@ -44,7 +44,7 @@ function SleepChart({ data, color, label }: { data: number[]; color: string; lab
           </circle>
         ))}
       </svg>
-      <div className="flex justify-between w-[280px] mt-0.5">
+      <div className="flex justify-between w-[320px] mt-0.5">
         {weekDays.map((d, i) => (
           <span key={d} className={`text-[8px] font-medium ${i === 6 ? 'text-[#8063d2]' : 'text-white/25'}`}>{d}</span>
         ))}
@@ -177,30 +177,25 @@ export function Home() {
 
       <GlassCard className="p-[18px] aa-card">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[16px]">📊</span>
-          <p className="text-[13px] font-semibold text-white/90">Courbes des 7 dernières nuits</p>
+          <span className="text-[16px]">😴</span>
+          <p className="text-[13px] font-semibold text-white/90">Temps de sommeil</p>
         </div>
-        <div className="flex gap-4 justify-center">
-          <div className="flex-1 max-w-[160px]">
-            <p className="text-[10px] text-white/30 text-center mb-1">😴 Sommeil</p>
-            <SleepChart data={mockSleepData} color="#8063d2" label="sleep" />
-          </div>
-          <div className="w-px bg-white/[0.04]" />
-          <div className="flex-1 max-w-[160px]">
-            <p className="text-[10px] text-white/30 text-center mb-1">⚡ Énergie</p>
-            <SleepChart data={mockEnergyData} color="#b8a8e6" label="energy" />
-          </div>
+        <SleepChart data={mockSleepData} color="#8063d2" label="sleep" />
+        <div className="text-center mt-2">
+          <p className="text-[20px] font-bold text-[#8063d2]">{avgSleep}h</p>
+          <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
         </div>
-        <div className="flex justify-center gap-4 mt-2">
-          <div className="text-center">
-            <p className="text-[18px] font-bold text-[#8063d2]">{avgSleep}h</p>
-            <p className="text-[9px] text-white/30">Moy. sommeil</p>
-          </div>
-          <div className="w-px bg-white/[0.04]" />
-          <div className="text-center">
-            <p className="text-[18px] font-bold text-[#b8a8e6]">{avgEnergy}/10</p>
-            <p className="text-[9px] text-white/30">Moy. énergie</p>
-          </div>
+      </GlassCard>
+
+      <GlassCard className="p-[18px] aa-card">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-[16px]">⚡</span>
+          <p className="text-[13px] font-semibold text-white/90">Niveau d'énergie</p>
+        </div>
+        <SleepChart data={mockEnergyData} color="#b8a8e6" label="energy" />
+        <div className="text-center mt-2">
+          <p className="text-[20px] font-bold text-[#b8a8e6]">{avgEnergy}/10</p>
+          <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
         </div>
       </GlassCard>
 
