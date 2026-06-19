@@ -61,7 +61,7 @@ export function BottomNav() {
               className="flex flex-col items-center justify-center flex-1 h-full gap-[2px] relative"
             >
               {active && (
-                <div className="absolute -top-0 left-1/2 -translate-x-1/2 w-[20px] h-[2.5px] rounded-full bg-gradient-to-r from-amber-400/80 to-celadon-400/80" />
+                <div className="absolute -top-0 left-1/2 -translate-x-1/2 w-[20px] h-[2.5px] rounded-full bg-gradient-to-r from-[#6247AA] to-[#8063d2]" />
               )}
               <div className={`w-[44px] h-[26px] flex items-center justify-center transition-all duration-300 ${
                 active ? 'scale-100' : 'scale-90'
@@ -74,7 +74,7 @@ export function BottomNav() {
                 {tab.label}
               </span>
               {active && (
-                <div className="w-[4px] h-[4px] rounded-full bg-amber-400/60 mt-[1px] animate-pulse-soft" />
+                <div className="w-[4px] h-[4px] rounded-full bg-[#8063d2]/80 mt-[1px] animate-pulse-soft" />
               )}
             </button>
           );

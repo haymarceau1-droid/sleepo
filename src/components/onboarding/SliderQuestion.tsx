@@ -15,7 +15,7 @@ export function SliderQuestion({ value, onChange, min, max, step, unit, labels, 
   return (
     <div className="flex flex-col min-h-[300px]">
       <div className="mb-10">
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-white/50 text-sm leading-relaxed">
           {narrative}
         </p>
       </div>

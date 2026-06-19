@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { onboardingQuestions, totalQuestions } from '../../data/onboarding';
-import { ProgressBar } from '../ui/ProgressBar';
+
 import { VisualFeedback } from './VisualFeedback';
 import { NarrativeStep } from './NarrativeStep';
 import { ChoiceQuestion } from './ChoiceQuestion';
@@ -112,7 +112,7 @@ export function OnboardingScreen() {
             <div className="flex justify-center mt-8">
               <button
                 onClick={handleSliderContinue}
-                className="px-8 py-3 rounded-xl bg-white/5 border border-slate-700/30 text-slate-300 font-medium text-sm hover:bg-white/10 hover:text-white transition-all duration-300"
+                className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#8063d2] text-white font-medium text-sm hover:from-[#7C5CBF] hover:to-[#9c86dc] transition-all duration-300"
               >
                 Continuer
               </button>
@@ -138,21 +138,32 @@ export function OnboardingScreen() {
       <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12 relative z-10">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <span className="text-xl">🌙</span>
+            <div className="w-[36px] h-[36px] rounded-full bg-gradient-to-br from-[#6247AA] to-[#8063d2] flex items-center justify-center">
+              <span className="text-[16px]">🌙</span>
+            </div>
             <span className="text-sm font-semibold text-white tracking-tight">Sleepo</span>
           </div>
           {!isFirst && (
             <button
               onClick={handlePrev}
-              className="text-slate-500 hover:text-slate-300 text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
+              className="text-[#8063d2] hover:text-[#b8a8e6] text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.03]"
             >
               ← Retour
             </button>
           )}
         </div>
 
-        <div className="mb-8">
-          <ProgressBar current={currentIndex + 1} total={totalQuestions} />
+        <div className="mb-6 flex items-center gap-2 justify-center">
+          {Array.from({ length: totalQuestions }).map((_, i) => (
+            <div
+              key={i}
+              className={`h-[6px] rounded-full transition-all duration-500 ${
+                i <= currentIndex
+                  ? 'w-[24px] bg-gradient-to-r from-[#6247AA] to-[#8063d2]'
+                  : 'w-[6px] bg-white/[0.08]'
+              }`}
+            />
+          ))}
         </div>
 
         {currentIndex > 0 && (

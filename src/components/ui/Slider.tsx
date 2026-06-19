@@ -40,7 +40,7 @@ export function Slider({ value, onChange, min, max, step, unit, labels }: Slider
         <span className="text-3xl font-light text-white tabular-nums tracking-tight">
           {displayValue}
         </span>
-        <span className="text-xs text-slate-500 font-medium">{labels[1]}</span>
+        <span className="text-xs text-white/30 font-medium">{labels[1]}</span>
       </div>
 
       <div
@@ -48,15 +48,15 @@ export function Slider({ value, onChange, min, max, step, unit, labels }: Slider
         className="relative h-12 flex items-center cursor-pointer group"
         onPointerDown={handlePointerDown}
       >
-        <div className="absolute inset-x-0 h-2 bg-slate-800/60 rounded-full">
+        <div className="absolute inset-x-0 h-2 bg-white/[0.06] rounded-full">
           <div
-            className="h-full bg-gradient-to-r from-amber-500/60 to-celadon-400/60 rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-[#6247AA]/60 to-[#8063d2]/60 rounded-full transition-all duration-300"
             style={{ width: `${percentage}%` }}
           />
         </div>
 
         <div
-          className="absolute w-6 h-6 bg-white rounded-full shadow-lg shadow-amber-500/20 border-2 border-amber-400/50 transition-transform duration-150 hover:scale-110 cursor-grab active:cursor-grabbing"
+          className="absolute w-6 h-6 bg-white rounded-full shadow-lg shadow-[#6247AA]/20 border-2 border-[#8063d2]/50 transition-transform duration-150 hover:scale-110 cursor-grab active:cursor-grabbing"
           style={{
             left: `calc(${percentage}% - 12px)`,
           }}
@@ -64,7 +64,7 @@ export function Slider({ value, onChange, min, max, step, unit, labels }: Slider
       </div>
 
       <div className="flex justify-between mt-2">
-        <span className="text-xs text-slate-500 font-medium">{labels[0]}</span>
+        <span className="text-xs text-white/30 font-medium">{labels[0]}</span>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
   return (
     <div className="flex flex-col min-h-[300px]">
       <div className="mb-8">
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-white/50 text-sm leading-relaxed">
           {question.narrative}
         </p>
       </div>
@@ -34,22 +34,22 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
                 group flex items-center gap-4 p-4 rounded-xl border text-left
                 transition-all duration-300
                 ${isSelected
-                  ? 'border-amber-500/40 bg-amber-500/10 shadow-lg shadow-amber-500/5'
-                  : 'border-slate-700/30 bg-slate-850/40 hover:border-slate-600/40 hover:bg-slate-850/60'
+                  ? 'border-[#6247AA]/40 bg-[#6247AA]/10 shadow-lg shadow-[#6247AA]/5'
+                  : 'border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.04]'
                 }
               `}
             >
               <span className="text-2xl flex-shrink-0">{choice.emoji}</span>
               <div className="flex-1 min-w-0">
-                <div className={`font-medium text-sm ${isSelected ? 'text-amber-300' : 'text-slate-200 group-hover:text-white'}`}>
+                <div className={`font-medium text-sm ${isSelected ? 'text-[#b8a8e6]' : 'text-white/70 group-hover:text-white'}`}>
                   {choice.label}
                 </div>
-                <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                <div className="text-xs text-white/35 mt-0.5 line-clamp-1">
                   {choice.description}
                 </div>
               </div>
               {isSelected && (
-                <span className="text-amber-400 text-lg flex-shrink-0">✓</span>
+                <span className="text-[#8063d2] text-lg flex-shrink-0">✓</span>
               )}
             </button>
           );

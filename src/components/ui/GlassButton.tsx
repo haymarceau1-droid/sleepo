@@ -40,10 +40,10 @@ export function GlassButton({
       : '0.5px solid rgba(255,255,255,0.08)',
     background: variant === 'dark'
       ? 'rgba(255,255,255,0.06)'
-      : 'rgba(0,122,255,0.85)',
+      : 'rgba(98,71,170,0.85)',
     boxShadow: variant === 'dark'
       ? undefined
-      : '0 2px 8px rgba(0,122,255,0.15)',
+      : '0 2px 8px rgba(98,71,170,0.25)',
   };
 
   return (

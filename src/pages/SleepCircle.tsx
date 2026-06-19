@@ -20,11 +20,6 @@ export function SleepCircle() {
 
     tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
       .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
-      .fromTo(el.querySelector('.aa-header'),
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        '-=0.15'
-      )
       .fromTo(el.querySelectorAll('.aa-card'),
         { opacity: 0, y: 16, scale: 0.98 },
         { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1 },
@@ -45,25 +40,20 @@ export function SleepCircle() {
   const sorted = [...friendsData].sort((a, b) => b.score - a.score);
 
   const rankBadge = (rank: number) => {
-    if (rank === 0) return { bg: 'bg-amber-400/15', text: 'text-amber-400', icon: '🥇' };
-    if (rank === 1) return { bg: 'bg-slate-300/10', text: 'text-slate-300', icon: '🥈' };
-    if (rank === 2) return { bg: 'bg-amber-700/10', text: 'text-amber-700', icon: '🥉' };
-    return { bg: 'bg-white/[0.03]', text: 'text-white/30', icon: `${rank + 1}` };
+    if (rank === 0) return { bg: 'bg-[#6247AA]/20', text: 'text-[#8063d2]', icon: '🥇' };
+    if (rank === 1) return { bg: 'bg-white/[0.05]', text: 'text-white/60', icon: '🥈' };
+    if (rank === 2) return { bg: 'bg-white/[0.03]', text: 'text-white/40', icon: '🥉' };
+    return { bg: 'bg-white/[0.02]', text: 'text-white/30', icon: `${rank + 1}` };
   };
 
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
-      <div className="flex flex-col items-center pt-6 pb-1 aa-header">
-        <div className="text-[34px] mb-1 animate-float">🌌</div>
-        <h1 className="text-[24px] font-bold tracking-[-0.03em] text-white mt-1">
-          Le Cercle du Sommeil
-        </h1>
-        <p className="text-[13px] text-white/35 mt-0.5">Grandir ensemble, une nuit à la fois</p>
-      </div>
-
       <GlassCard className="!p-0 overflow-hidden aa-card">
         <div className="px-[16px] py-[12px] flex items-center justify-between border-b border-white/[0.04]">
-          <h2 className="text-[14px] font-semibold tracking-[-0.01em] text-white">Classement</h2>
+          <div className="flex items-center gap-2.5">
+            <span className="text-[16px]">🌌</span>
+            <h2 className="text-[14px] font-semibold text-white">Liste des amis</h2>
+          </div>
           <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-white/[0.04] text-white/30">
             {sorted.length} membres
           </span>
@@ -84,39 +74,39 @@ export function SleepCircle() {
 
                 <div className="relative flex-shrink-0">
                   <div className={`w-[36px] h-[36px] rounded-full flex items-center justify-center text-[17px] ${
-                    i === 0 ? 'bg-amber-400/10' : 'bg-white/[0.04]'
+                    i === 0 ? 'bg-[#6247AA]/15' : 'bg-white/[0.04]'
                   }`}>
                     {friend.guardian}
                   </div>
                   <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#0a0d14] ${
-                    friend.online ? 'bg-celadon-400 shadow-[0_0_6px_rgba(125,211,192,0.4)]' : 'bg-white/[0.08]'
+                    friend.online ? 'bg-[#8063d2] shadow-[0_0_6px_rgba(128,99,210,0.4)]' : 'bg-white/[0.08]'
                   }`} />
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-medium text-white/85">{friend.name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-[13px] font-medium text-white/85">{friend.name}</p>
+                    <span className="text-[10px] text-white/30">{friend.sleepHours}h</span>
+                  </div>
                   <div className="flex items-center gap-2 mt-1">
                     <div className="flex-1 h-[4px] rounded-full bg-white/[0.05] overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-700 ease-out ${
                           i === 0
-                            ? 'bg-gradient-to-r from-amber-400 to-amber-500'
+                            ? 'bg-gradient-to-r from-[#6247AA] to-[#8063d2]'
                             : 'bg-white/[0.12]'
                         }`}
                         style={{ width: `${barW}%` }}
                       />
                     </div>
+                    <span className="text-[9px] text-white/25 font-medium">{friend.defisReussis} défis</span>
                   </div>
                 </div>
 
                 <div className="text-right flex-shrink-0 ml-1">
-                  <p className="text-[16px] font-bold text-white/90 tracking-[-0.02em]">{friend.score}</p>
+                  <p className="text-[16px] font-bold text-[#8063d2] tracking-[-0.02em]">{friend.score}</p>
                   <p className="text-[8px] font-semibold text-white/25 uppercase tracking-[0.06em]">Score</p>
                 </div>
-
-                <button className="ml-0.5 px-[9px] h-[26px] rounded-[7px] bg-amber-500/10 border border-amber-500/12 text-amber-400/80 text-[10px] font-medium hover:bg-amber-500/15 transition-colors active:scale-95 whitespace-nowrap flex-shrink-0">
-                  Bonne nuit
-                </button>
               </div>
             );
           })}
@@ -124,17 +114,17 @@ export function SleepCircle() {
       </GlassCard>
 
       <GlassCard className="p-[16px] aa-card">
-        <h3 className="text-[13px] font-semibold tracking-[-0.01em] text-white/80 mb-2">Cette semaine</h3>
+        <h3 className="text-[13px] font-semibold text-white/80 mb-2">Cette semaine</h3>
         <div className="flex items-center justify-around py-2">
           <div className="text-center">
             <p className="text-[11px] text-white/35">🥇 Meilleur score</p>
-            <p className="text-[20px] font-bold text-amber-400 mt-0.5">{maxScore}</p>
+            <p className="text-[20px] font-bold text-[#8063d2] mt-0.5">{maxScore}</p>
             <p className="text-[10px] text-white/30">{sorted[0].name}</p>
           </div>
           <div className="w-[1px] h-[32px] bg-white/[0.04]" />
           <div className="text-center">
             <p className="text-[11px] text-white/35">🔥 Défis réussis</p>
-            <p className="text-[20px] font-bold text-celadon-400 mt-0.5">
+            <p className="text-[20px] font-bold text-[#b8a8e6] mt-0.5">
               {sorted.reduce((acc, f) => acc + f.defisReussis, 0)}
             </p>
             <p className="text-[10px] text-white/30">Total du groupe</p>

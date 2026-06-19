@@ -24,20 +24,20 @@ export function ConfirmStep({ title, narrative, onConfirm }: ConfirmStepProps) {
             {title}
           </h2>
 
-          <div className="glass-panel p-6 max-w-sm mx-auto text-left">
+          <div className="p-5 max-w-sm mx-auto text-left bg-white/[0.02] border border-white/[0.06] rounded-xl">
             {narrative.split('\n').filter(Boolean).map((line, i) => {
               const isBullet = line.trim().startsWith('•');
               const isSpacer = line.trim() === '';
               if (isSpacer) return null;
               if (isBullet) {
                 return (
-                  <p key={i} className="text-slate-300 text-sm leading-relaxed mb-2 pl-2">
+                  <p key={i} className="text-white/70 text-sm leading-relaxed mb-2 pl-2">
                     {line}
                   </p>
                 );
               }
               return (
-                <p key={i} className="text-slate-400 text-sm leading-relaxed mb-2">
+                <p key={i} className="text-white/40 text-sm leading-relaxed mb-2">
                   {line}
                 </p>
               );
@@ -48,8 +48,8 @@ export function ConfirmStep({ title, narrative, onConfirm }: ConfirmStepProps) {
 
       <button
         onClick={onConfirm}
-        className={`mt-8 px-10 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold
-          shadow-lg shadow-amber-500/20 hover:from-amber-400 hover:to-amber-500
+        className={`mt-8 px-10 py-3.5 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#8063d2] text-white font-semibold
+          shadow-lg shadow-[#6247AA]/20 hover:from-[#7C5CBF] hover:to-[#9c86dc]
           transition-all duration-300 text-sm
           ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
       >
