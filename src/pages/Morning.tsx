@@ -40,39 +40,45 @@ export function Morning() {
   const answers = useGameStore((s) => s.answers);
   const streak = useGameStore((s) => s.streak);
   const rootRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
   const energyRef = useRef<HTMLSpanElement>(null);
   const seriesRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 });
 
-    gsap.fromTo(el.querySelector('.aa-header'),
-      { opacity: 0, y: -8 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-    );
-
-    const cards = el.querySelectorAll('.aa-card');
-    gsap.fromTo(cards,
-      { opacity: 0, y: 16, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.12, ease: 'power3.out', delay: 0.03 }
-    );
+    tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      .fromTo(el.querySelector('.aa-header'),
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.45 },
+        '-=0.15'
+      )
+      .fromTo(el.querySelectorAll('.aa-card'),
+        { opacity: 0, y: 18, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.12 },
+        '-=0.2'
+      );
 
     if (energyRef.current && answers.eveningEnergy) {
       const obj = { val: 0 };
       gsap.to(obj, {
-        val: answers.eveningEnergy, duration: 1.2, delay: 0.45, ease: 'power2.out',
+        val: answers.eveningEnergy, duration: 1.2, delay: 0.5, ease: 'power2.out',
         onUpdate: () => { energyRef.current!.textContent = Math.round(obj.val).toString(); },
       });
     }
     if (seriesRef.current && streak.currentStreak) {
       const obj = { val: 0 };
       gsap.to(obj, {
-        val: streak.currentStreak, duration: 1, delay: 0.55, ease: 'power2.out',
+        val: streak.currentStreak, duration: 1, delay: 0.6, ease: 'power2.out',
         onUpdate: () => { seriesRef.current!.textContent = Math.round(obj.val).toString(); },
       });
     }
+
+    return () => {
+      tlRef.current?.kill();
+    };
   }, []);
 
   const guardianEmoji = () => {
@@ -93,7 +99,7 @@ export function Morning() {
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
       <div className="flex flex-col items-center pt-6 pb-2 aa-header">
-        <div className="text-[34px] mb-1">🌅</div>
+        <div className="text-[34px] mb-1 animate-float">🌅</div>
         <h1 className="text-[24px] font-bold tracking-[-0.03em] text-white mt-1">
           Bonjour, aventurier
         </h1>
@@ -104,7 +110,7 @@ export function Morning() {
         <div className="relative flex items-center justify-center">
           <GuardianRing pct={energyPct} />
           <div className="absolute flex flex-col items-center">
-            <span className="text-[28px] mb-1">{guardianEmoji()}</span>
+            <span className="text-[28px] mb-1 animate-float" style={{ animationDelay: '0.5s' }}>{guardianEmoji()}</span>
             <span ref={energyRef} className="text-[22px] font-bold tracking-[-0.03em] text-white">
               {answers.eveningEnergy ?? '-'}
             </span>

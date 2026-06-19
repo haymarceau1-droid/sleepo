@@ -16,41 +16,51 @@ export function Home() {
   const streak = useGameStore((s) => s.streak);
   const answers = useGameStore((s) => s.answers);
   const rootRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
   const streakNumRef = useRef<HTMLParagraphElement>(null);
   const longestNumRef = useRef<HTMLParagraphElement>(null);
+  const guardianRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 });
 
-    gsap.fromTo(el.querySelectorAll('.aa-card'),
-      { opacity: 0, y: 18, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.1, ease: 'power3.out', delay: 0.05 }
-    );
-
-    const cta = el.querySelector('[data-glass="button"]');
-    if (cta) {
-      gsap.fromTo(cta,
+    tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      .fromTo(el.querySelector('.aa-header'),
+        { opacity: 0, y: -12 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        '-=0.15'
+      )
+      .fromTo(el.querySelectorAll('.aa-card'),
+        { opacity: 0, y: 20, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1 },
+        '-=0.2'
+      )
+      .fromTo(el.querySelector('[data-glass="button"]'),
         { opacity: 0, y: 12, scale: 0.97 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.35 }
+        { opacity: 1, y: 0, scale: 1, duration: 0.4 },
+        '-=0.1'
       );
-    }
 
     if (streakNumRef.current && streak.currentStreak > 0) {
       const obj = { val: 0 };
       gsap.to(obj, {
-        val: streak.currentStreak, duration: 1, delay: 0.3, ease: 'power2.out',
+        val: streak.currentStreak, duration: 1, delay: 0.5, ease: 'power2.out',
         onUpdate: () => { streakNumRef.current!.textContent = Math.round(obj.val).toString(); },
       });
     }
     if (longestNumRef.current && streak.longestStreak > 0) {
       const obj = { val: 0 };
       gsap.to(obj, {
-        val: streak.longestStreak, duration: 1, delay: 0.4, ease: 'power2.out',
+        val: streak.longestStreak, duration: 1, delay: 0.6, ease: 'power2.out',
         onUpdate: () => { longestNumRef.current!.textContent = Math.round(obj.val).toString(); },
       });
     }
+
+    return () => {
+      tlRef.current?.kill();
+    };
   }, []);
 
   const guardianEmoji = () => {
@@ -90,9 +100,9 @@ export function Home() {
 
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
-      <div className="flex items-center justify-between pt-3 pb-1">
+      <div className="flex items-center justify-between pt-3 pb-1 aa-header">
         <div className="flex items-center gap-2.5">
-          <div className="w-[40px] h-[40px] rounded-full bg-gradient-to-br from-amber-400/20 to-amber-600/10 flex items-center justify-center text-[20px]">
+          <div ref={guardianRef} className="w-[40px] h-[40px] rounded-full bg-gradient-to-br from-amber-400/20 to-amber-600/10 flex items-center justify-center text-[20px] animate-float">
             {guardianEmoji()}
           </div>
           <div>
@@ -102,7 +112,7 @@ export function Home() {
         </div>
         <button
           onClick={() => navigate('/sleepcircle')}
-          className="w-[36px] h-[36px] rounded-full bg-white/[0.04] flex items-center justify-center text-white/40 hover:bg-white/[0.07] transition-all"
+          className="w-[36px] h-[36px] rounded-full bg-white/[0.04] flex items-center justify-center text-white/40 hover:bg-white/[0.07] hover:text-white/70 transition-all"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
@@ -114,7 +124,7 @@ export function Home() {
         <div className="flex items-center justify-between mb-3">
           <p className="text-[11px] font-semibold tracking-[0.06em] text-white/35 uppercase">Série en cours</p>
           <div className="flex items-center gap-1.5">
-            <div className={`w-[6px] h-[6px] rounded-full ${streak.currentStreak > 0 ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.4)]' : 'bg-white/[0.12]'}`} />
+            <div className={`w-[6px] h-[6px] rounded-full ${streak.currentStreak > 0 ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.4)] animate-pulse-soft' : 'bg-white/[0.12]'}`} />
             <span className="text-[10px] text-white/30">{streak.currentStreak > 0 ? 'Active' : 'En attente'}</span>
           </div>
         </div>
@@ -124,16 +134,17 @@ export function Home() {
           </span>
           <span className="text-[16px] font-medium text-white/35 pb-[6px] ml-0.5">nuits</span>
           {streak.currentStreak > 0 && (
-            <span className="text-[22px] ml-auto pb-[4px]">🔥</span>
+            <span className="text-[22px] ml-auto pb-[4px] animate-float">🔥</span>
           )}
         </div>
         <div className="flex gap-[5px] mt-4">
           {weekDots.map((i) => (
             <div
               key={i}
-              className={`flex-1 h-[4px] rounded-full transition-all duration-500 ${
-                i < (streak.currentStreak % 7) ? 'bg-gradient-to-r from-amber-400 to-amber-500' : 'bg-white/[0.05]'
+              className={`flex-1 h-[4px] rounded-full transition-all duration-700 ${
+                i < (streak.currentStreak % 7) ? 'bg-gradient-to-r from-amber-400 to-amber-500 shadow-[0_0_6px_rgba(251,191,36,0.3)]' : 'bg-white/[0.05]'
               }`}
+              style={{ transitionDelay: `${i * 60}ms` }}
             />
           ))}
         </div>
@@ -156,12 +167,12 @@ export function Home() {
       <GlassCard className="p-[18px] aa-card">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-[13px] font-semibold tracking-[-0.01em] text-white/80">Mission du soir</h2>
-          <span className="text-[10px] font-semibold tracking-[0.04em] uppercase px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400/90">
+          <span className="text-[10px] font-semibold tracking-[0.04em] uppercase px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400/90 animate-pulse-glow">
             Ce soir
           </span>
         </div>
         <div className="flex items-center gap-3.5">
-          <div className="w-[50px] h-[50px] rounded-[14px] bg-gradient-to-br from-white/[0.04] to-white/[0.01] flex items-center justify-center text-[24px] flex-shrink-0">
+          <div className="w-[50px] h-[50px] rounded-[14px] bg-gradient-to-br from-white/[0.04] to-white/[0.01] flex items-center justify-center text-[24px] flex-shrink-0 animate-float" style={{ animationDelay: '1s' }}>
             {ritualEmoji()}
           </div>
           <div className="flex-1 min-w-0">
@@ -170,13 +181,9 @@ export function Home() {
           </div>
         </div>
         <div className="flex gap-[5px] mt-3.5">
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
-          <div className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
+          {weekDots.map((i) => (
+            <div key={i} className="flex-1 h-[3px] rounded-full bg-white/[0.06]" />
+          ))}
         </div>
       </GlassCard>
 
@@ -189,12 +196,12 @@ export function Home() {
         </div>
         <div className="flex gap-3">
           {mockFriends.map((friend) => (
-            <div key={friend.name} className="flex-1 flex flex-col items-center gap-2 bg-white/[0.02] rounded-[12px] py-3 px-2">
+            <div key={friend.name} className="flex-1 flex flex-col items-center gap-2 bg-white/[0.02] rounded-[12px] py-3 px-2 hover:bg-white/[0.04] transition-all duration-300">
               <div className="relative">
                 <div className="w-[42px] h-[42px] rounded-full bg-white/[0.04] flex items-center justify-center text-[18px]">
                   {friend.emoji}
                 </div>
-                <div className={`absolute -bottom-[1px] -right-[1px] w-[10px] h-[10px] rounded-full border-[2px] border-[#0f0f10] ${
+                <div className={`absolute -bottom-[1px] -right-[1px] w-[10px] h-[10px] rounded-full border-[2px] border-[#0a0d14] ${
                   friend.online ? 'bg-celadon-400 shadow-[0_0_6px_rgba(125,211,192,0.4)]' : 'bg-white/[0.08]'
                 }`} />
               </div>

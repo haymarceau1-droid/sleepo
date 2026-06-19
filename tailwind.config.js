@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        'aave-bg': '#0f0f10',
-        'aave-surface': '#141416',
+        'aave-bg': '#0a0d14',
+        'aave-surface': '#0f1219',
         'aave-glass': 'rgba(255,255,255,0.04)',
         'aave-glass-hover': 'rgba(255,255,255,0.07)',
         'aave-border': 'rgba(255,255,255,0.08)',
         'aave-border-light': 'rgba(255,255,255,0.12)',
         'aave-border-subtle': 'rgba(255,255,255,0.04)',
         'aave-separator': 'rgba(255,255,255,0.05)',
-        midnight: '#0B0F19',
+        midnight: '#060a12',
         amber: {
           400: '#fbbf24',
           500: '#f59e0b',
@@ -28,7 +28,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Google Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'system-ui', 'sans-serif'],
-        display: ['"Google Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Helvetica Neue"', 'system-ui', 'sans-serif'],
+        display: ['"Google Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'glass-title': ['22px', { lineHeight: '28px', fontWeight: '700', letterSpacing: '-0.03em' }],
@@ -50,6 +50,11 @@ export default {
         'glass-fade': 'glassFade 0.4s ease-out',
         'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
         'glow': 'glow 3s ease-in-out infinite',
+        'twinkle': 'twinkle var(--duration, 3s) ease-in-out infinite',
+        'float': 'float 4s ease-in-out infinite',
+        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+        'breathe': 'breathe 4s ease-in-out infinite',
       },
       keyframes: {
         glassIn: {
@@ -71,6 +76,27 @@ export default {
         glow: {
           '0%, 100%': { boxShadow: '0 0 20px rgba(251, 191, 36, 0.1)' },
           '50%': { boxShadow: '0 0 40px rgba(251, 191, 36, 0.3)' },
+        },
+        twinkle: {
+          '0%, 100%': { opacity: '0.3', transform: 'scale(0.8)' },
+          '50%': { opacity: '1', transform: 'scale(1)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '33%': { transform: 'translateY(-4px) rotate(1deg)' },
+          '66%': { transform: 'translateY(2px) rotate(-1deg)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { boxShadow: '0 0 8px rgba(251, 191, 36, 0.08)' },
+          '50%': { boxShadow: '0 0 20px rgba(251, 191, 36, 0.2)' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.6' },
+          '50%': { transform: 'scale(1.05)', opacity: '1' },
         },
       },
       spacing: {

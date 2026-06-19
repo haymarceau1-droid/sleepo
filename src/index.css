@@ -15,6 +15,10 @@
 
   body {
     @apply bg-aave-bg text-white min-h-screen overflow-x-hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(147, 51, 234, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.04) 0%, transparent 50%);
   }
 
   ::selection {
@@ -33,6 +37,7 @@
     box-shadow:
       inset 0 0.5px 0 0 rgba(255, 255, 255, 0.08),
       0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
   }
 
   .glass-card::before {
@@ -146,5 +151,94 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-4px) rotate(1deg); }
+  66% { transform: translateY(2px) rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(251, 191, 36, 0.08); }
+  50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes aurora {
+  0% { transform: translateX(-100%) translateY(0) scale(1); opacity: 0; }
+  25% { opacity: 0.3; }
+  50% { transform: translateX(0%) translateY(-20px) scale(1.2); opacity: 0.15; }
+  75% { opacity: 0.3; }
+  100% { transform: translateX(100%) translateY(0) scale(1); opacity: 0; }
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: shoot var(--shoot-duration, 2s) linear infinite;
+  animation-delay: var(--shoot-delay, 0s);
+}
+
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  right: 2px;
+}
+
+@keyframes shoot {
+  0% {
+    transform: translate(0, 0) rotate(-35deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  15% {
+    transform: translate(-200px, 150px) rotate(-35deg);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-250px, 190px) rotate(-35deg);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }

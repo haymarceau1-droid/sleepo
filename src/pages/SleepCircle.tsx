@@ -12,22 +12,33 @@ const friendsData = [
 
 export function SleepCircle() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 });
 
-    gsap.fromTo(el.querySelector('.aa-header'),
-      { opacity: 0, y: -8 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-    );
+    tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      .fromTo(el.querySelector('.aa-header'),
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.45 },
+        '-=0.15'
+      )
+      .fromTo(el.querySelectorAll('.aa-card'),
+        { opacity: 0, y: 16, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1 },
+        '-=0.2'
+      )
+      .fromTo(el.querySelectorAll('.aa-friend'),
+        { opacity: 0, x: -16 },
+        { opacity: 1, x: 0, duration: 0.35, stagger: 0.04 },
+        '-=0.15'
+      );
 
-    const items = el.querySelectorAll('.aa-friend');
-    gsap.fromTo(items,
-      { opacity: 0, x: -16 },
-      { opacity: 1, x: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out', delay: 0.12 }
-    );
+    return () => {
+      tlRef.current?.kill();
+    };
   }, []);
 
   const maxScore = Math.max(...friendsData.map(f => f.score));
@@ -43,7 +54,7 @@ export function SleepCircle() {
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
       <div className="flex flex-col items-center pt-6 pb-1 aa-header">
-        <div className="text-[34px] mb-1">🌌</div>
+        <div className="text-[34px] mb-1 animate-float">🌌</div>
         <h1 className="text-[24px] font-bold tracking-[-0.03em] text-white mt-1">
           Le Cercle du Sommeil
         </h1>
@@ -65,7 +76,7 @@ export function SleepCircle() {
             return (
               <div
                 key={friend.name}
-                className="flex items-center gap-3 px-[16px] py-[11px] active:bg-white/[0.01] transition-colors aa-friend"
+                className="flex items-center gap-3 px-[16px] py-[11px] active:bg-white/[0.01] transition-colors aa-friend hover:bg-white/[0.01]"
               >
                 <div className={`w-[24px] text-center ${badge.text}`}>
                   <span className="text-[12px] font-semibold">{badge.icon}</span>
@@ -77,7 +88,7 @@ export function SleepCircle() {
                   }`}>
                     {friend.guardian}
                   </div>
-                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#0f0f10] ${
+                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#0a0d14] ${
                     friend.online ? 'bg-celadon-400 shadow-[0_0_6px_rgba(125,211,192,0.4)]' : 'bg-white/[0.08]'
                   }`} />
                 </div>

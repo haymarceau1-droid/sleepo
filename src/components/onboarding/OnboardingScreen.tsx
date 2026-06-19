@@ -7,6 +7,7 @@ import { NarrativeStep } from './NarrativeStep';
 import { ChoiceQuestion } from './ChoiceQuestion';
 import { SliderQuestion } from './SliderQuestion';
 import { ConfirmStep } from './ConfirmStep';
+import { Starfield } from '../ui/Starfield';
 
 export function OnboardingScreen() {
   const currentIndex = useGameStore((s) => s.currentQuestionIndex);
@@ -132,8 +133,9 @@ export function OnboardingScreen() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-midnight">
-      <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12">
+    <div className="min-h-screen flex flex-col bg-midnight relative">
+      <Starfield />
+      <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12 relative z-10">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <span className="text-xl">🌙</span>
@@ -159,7 +161,7 @@ export function OnboardingScreen() {
 
         <div
           key={currentIndex}
-          className="flex-1 animate-fade-in"
+          className="flex-1 animate-glass-fade"
         >
           {currentIndex > 0 && (
             <h2 className="text-2xl font-semibold text-white mb-2 leading-snug">

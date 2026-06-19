@@ -58,18 +58,24 @@ export function BottomNav() {
             <button
               key={tab.id}
               onClick={() => navigate(tab.path)}
-              className="flex flex-col items-center justify-center flex-1 h-full gap-[2px]"
+              className="flex flex-col items-center justify-center flex-1 h-full gap-[2px] relative"
             >
-              <div className={`w-[44px] h-[26px] flex items-center justify-center transition-all duration-200 ${
+              {active && (
+                <div className="absolute -top-0 left-1/2 -translate-x-1/2 w-[20px] h-[2.5px] rounded-full bg-gradient-to-r from-amber-400/80 to-celadon-400/80" />
+              )}
+              <div className={`w-[44px] h-[26px] flex items-center justify-center transition-all duration-300 ${
                 active ? 'scale-100' : 'scale-90'
               }`}>
                 {tab.icon(active)}
               </div>
-              <span className={`text-[10px] font-medium tracking-[0.01em] transition-colors duration-150 ${
+              <span className={`text-[10px] font-medium tracking-[0.01em] transition-all duration-300 ${
                 active ? 'text-white' : 'text-white/35'
               }`}>
                 {tab.label}
               </span>
+              {active && (
+                <div className="w-[4px] h-[4px] rounded-full bg-amber-400/60 mt-[1px] animate-pulse-soft" />
+              )}
             </button>
           );
         })}

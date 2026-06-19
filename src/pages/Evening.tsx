@@ -15,6 +15,7 @@ export function Evening() {
   const streak = useGameStore((s) => s.streak);
   const [jokerUsed, setJokerUsed] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   const handleJoker = () => {
     if (streak.jokerAvailable && !jokerUsed) {
@@ -25,32 +26,37 @@ export function Evening() {
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25 });
 
-    gsap.fromTo(el.querySelector('.aa-header'),
-      { opacity: 0, y: -8 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-    );
-
-    const cards = el.querySelectorAll('.aa-card');
-    gsap.fromTo(cards,
-      { opacity: 0, y: 14, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.09, ease: 'power3.out', delay: 0.03 }
-    );
-
-    const btns = el.querySelectorAll('[data-glass="button"]');
-    gsap.fromTo(btns,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(1.3)', delay: 0.3 }
-    );
+    tlRef.current = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      .fromTo(el.querySelector('.aa-header'),
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.45 },
+        '-=0.15'
+      )
+      .fromTo(el.querySelectorAll('.aa-card'),
+        { opacity: 0, y: 16, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.09 },
+        '-=0.2'
+      )
+      .fromTo(el.querySelectorAll('[data-glass="button"]'),
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'back.out(1.3)' },
+        '-=0.1'
+      );
 
     const social = el.querySelector('.aa-social');
     if (social) {
-      gsap.fromTo(social,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', delay: 0.45 }
+      tlRef.current.fromTo(social,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        '-=0.1'
       );
     }
+
+    return () => {
+      tlRef.current?.kill();
+    };
   }, []);
 
   const ritualEmoji = () => {
@@ -78,7 +84,7 @@ export function Evening() {
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-2 pb-4 gap-[11px]">
       <div className="flex flex-col items-center pt-6 pb-1 aa-header">
-        <div className="text-[34px] mb-1">🌃</div>
+        <div className="text-[34px] mb-1 animate-float">🌃</div>
         <h1 className="text-[24px] font-bold tracking-[-0.03em] text-white mt-1">
           Mission du soir
         </h1>
@@ -87,7 +93,7 @@ export function Evening() {
 
       <GlassCard className="p-[12px] flex items-center justify-between aa-card">
         <div className="flex items-center gap-2.5">
-          <div className="w-[10px] h-[10px] rounded-full bg-celadon-400 shadow-[0_0_12px_rgba(125,211,192,0.3)]" />
+          <div className="w-[10px] h-[10px] rounded-full bg-celadon-400 shadow-[0_0_12px_rgba(125,211,192,0.3)] animate-breathe" />
           <span className="text-[13px] font-medium text-white/80">Prêt pour la nuit</span>
         </div>
         <span className="text-[10px] font-semibold tracking-[0.04em] uppercase px-3 py-1 rounded-full bg-celadon-400/10 text-celadon-400/80">
@@ -96,7 +102,7 @@ export function Evening() {
       </GlassCard>
 
       <GlassCard className="p-[22px] flex flex-col items-center text-center aa-card">
-        <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-br from-white/[0.04] to-white/[0.01] flex items-center justify-center text-[34px] mb-3.5">
+        <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-br from-white/[0.04] to-white/[0.01] flex items-center justify-center text-[34px] mb-3.5 animate-float" style={{ animationDelay: '0.3s' }}>
           {ritualEmoji()}
         </div>
         <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-white mb-1.5">{ritualLabel()}</h3>
