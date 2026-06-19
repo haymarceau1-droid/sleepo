@@ -3,6 +3,11 @@ import gsap from 'gsap';
 import { useGameStore } from '../store/useGameStore';
 import { GlassCard } from '../components/ui/GlassCard';
 
+const weekDays = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
+const mockSleepData = [6.5, 7.2, 8.0, 5.8, 7.5, 8.5, 7.0];
+const mockEnergyData = [4, 6, 8, 3, 7, 9, 6];
+
 const monthDays = Array.from({ length: 30 }, (_, i) => {
   const day = i + 1;
   if (day <= 23) return { day, done: Math.random() > 0.2 };
@@ -16,6 +21,42 @@ const mockFriends = [
   { name: 'Lucas', hours: 8.2, emoji: '🦊' },
   { name: 'Emma', hours: 7.0, emoji: '🐱' },
 ];
+
+function SleepChart({ data, color, label }: { data: number[]; color: string; label: string }) {
+  const w = 320, h = 100, px = 24, py = 10;
+  const iw = w - px * 2, ih = h - py * 2;
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const pts = data.map((v, i) => [px + (iw / (data.length - 1)) * i, py + ih - ((v - min) / range) * ih] as const);
+  const line = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const area = `M${pts[0][0].toFixed(1)},${py + ih} L${pts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' L')} L${pts[pts.length-1][0].toFixed(1)},${py + ih} Z`;
+
+  return (
+    <div className="flex flex-col items-center">
+      <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
+        <defs>
+          <linearGradient id={`grad-${label}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.35" />
+            <stop offset="100%" stopColor={color} stopOpacity="0.02" />
+          </linearGradient>
+        </defs>
+        <path d={area} fill={`url(#grad-${label})`} className="aa-chart-area" />
+        <path d={line} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="aa-chart-line" />
+        {pts.map((p, i) => (
+          <circle key={i} cx={p[0]} cy={p[1]} r="3" fill={color} className="aa-chart-dot" style={{ opacity: 0 }}>
+            <title>{data[i]}h</title>
+          </circle>
+        ))}
+      </svg>
+      <div className="flex justify-between w-[320px] mt-0.5">
+        {weekDays.map((d, i) => (
+          <span key={d} className={`text-[8px] font-medium ${i === 6 ? 'text-[#a06cd5]' : 'text-white/25'}`}>{d}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Stats() {
   const [tab, setTab] = useState<'personnel' | 'amis'>('personnel');
@@ -31,8 +72,23 @@ export function Stats() {
       .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 })
       .fromTo(el.querySelectorAll('.aa-card'),
         { opacity: 0, y: 16, scale: 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.12 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1 },
         '-=0.2'
+      )
+      .fromTo(el.querySelectorAll('.aa-chart-line'),
+        { strokeDasharray: 400, strokeDashoffset: 400 },
+        { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' },
+        '-=0.3'
+      )
+      .fromTo(el.querySelectorAll('.aa-chart-area'),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6 },
+        '-=0.8'
+      )
+      .fromTo(el.querySelectorAll('.aa-chart-dot'),
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.3, stagger: 0.04, ease: 'back.out(2)' },
+        '-=0.4'
       );
 
     return () => {
@@ -41,6 +97,8 @@ export function Stats() {
   }, [tab]);
 
   const maxHours = Math.max(...mockFriends.map((f) => f.hours));
+  const avgSleep = (mockSleepData.reduce((a, b) => a + b, 0) / mockSleepData.length).toFixed(1);
+  const avgEnergy = Math.round(mockEnergyData.reduce((a, b) => a + b, 0) / mockEnergyData.length);
 
   return (
     <div ref={rootRef} className="flex flex-col px-4 pt-3 pb-4 gap-[11px]">
@@ -81,6 +139,32 @@ export function Stats() {
               <p className="text-[11px] text-white/50 leading-relaxed">
                 Garde ton Score de Sommeil en dormant chaque nuit selon tes objectifs !
               </p>
+            </div>
+          </GlassCard>
+
+          {/* Courbe sommeil */}
+          <GlassCard className="p-[18px] aa-card">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[16px]">😴</span>
+              <p className="text-[13px] font-semibold text-white/90">Temps de sommeil</p>
+            </div>
+            <SleepChart data={mockSleepData} color="#a06cd5" label="sleep" />
+            <div className="text-center mt-2">
+              <p className="text-[20px] font-bold text-[#a06cd5]">{avgSleep}h</p>
+              <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
+            </div>
+          </GlassCard>
+
+          {/* Courbe énergie */}
+          <GlassCard className="p-[18px] aa-card">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[16px]">⚡</span>
+              <p className="text-[13px] font-semibold text-white/90">Niveau d'énergie</p>
+            </div>
+            <SleepChart data={mockEnergyData} color="#e2cfea" label="energy" />
+            <div className="text-center mt-2">
+              <p className="text-[20px] font-bold text-[#e2cfea]">{avgEnergy}/10</p>
+              <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
             </div>
           </GlassCard>
 
