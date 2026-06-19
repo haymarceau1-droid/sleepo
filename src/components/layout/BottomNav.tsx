@@ -51,7 +51,7 @@ export function BottomNav() {
 
   return (
     <nav ref={navRef} className="fixed bottom-0 left-0 right-0 z-40 safe-bottom">
-      <div className="bg-[#0a0d14]/92 border-t border-white/[0.04] backdrop-blur-[40px]">
+      <div className="bg-[#062726]/92 border-t border-white/[0.04] backdrop-blur-[40px]">
         <div className="h-[56px] flex items-center justify-around px-2 pb-[max(0px,env(safe-area-inset-bottom,0px))]">
           {tabs.map((tab) => {
             const active = location.pathname === tab.path;
@@ -62,7 +62,7 @@ export function BottomNav() {
                 className="flex flex-col items-center justify-center flex-1 h-full gap-0.5 relative"
               >
                 {active && (
-                  <div className="absolute inset-1 rounded-[12px] bg-gradient-to-br from-[#6247AA]/20 to-[#8063d2]/10" />
+                  <div className="absolute inset-1 rounded-[12px] bg-gradient-to-br from-[#6247AA]/20 to-[#a06cd5]/10" />
                 )}
                 <div className={`flex items-center justify-center transition-all duration-300 ${
                   active ? 'scale-100' : 'scale-90 opacity-50'
@@ -70,7 +70,7 @@ export function BottomNav() {
                   {tab.icon(active)}
                 </div>
                 <span className={`text-[9px] font-semibold tracking-[0.02em] transition-all duration-300 ${
-                  active ? 'text-[#b8a8e6]' : 'text-white/30'
+                  active ? 'text-[#e2cfea]' : 'text-white/30'
                 }`}>
                   {tab.label}
                 </span>

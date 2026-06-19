@@ -41,7 +41,7 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
             >
               <span className="text-2xl flex-shrink-0">{choice.emoji}</span>
               <div className="flex-1 min-w-0">
-                <div className={`font-medium text-sm ${isSelected ? 'text-[#b8a8e6]' : 'text-white/70 group-hover:text-white'}`}>
+                <div className={`font-medium text-sm ${isSelected ? 'text-[#e2cfea]' : 'text-white/70 group-hover:text-white'}`}>
                   {choice.label}
                 </div>
                 <div className="text-xs text-white/35 mt-0.5 line-clamp-1">
@@ -49,7 +49,7 @@ export function ChoiceQuestion({ question, onSelect, currentValue }: ChoiceQuest
                 </div>
               </div>
               {isSelected && (
-                <span className="text-[#8063d2] text-lg flex-shrink-0">✓</span>
+                <span className="text-[#a06cd5] text-lg flex-shrink-0">✓</span>
               )}
             </button>
           );

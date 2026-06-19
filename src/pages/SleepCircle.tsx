@@ -40,7 +40,7 @@ export function SleepCircle() {
   const sorted = [...friendsData].sort((a, b) => b.score - a.score);
 
   const rankBadge = (rank: number) => {
-    if (rank === 0) return { bg: 'bg-[#6247AA]/20', text: 'text-[#8063d2]', icon: '🥇' };
+    if (rank === 0) return { bg: 'bg-[#6247AA]/20', text: 'text-[#a06cd5]', icon: '🥇' };
     if (rank === 1) return { bg: 'bg-white/[0.05]', text: 'text-white/60', icon: '🥈' };
     if (rank === 2) return { bg: 'bg-white/[0.03]', text: 'text-white/40', icon: '🥉' };
     return { bg: 'bg-white/[0.02]', text: 'text-white/30', icon: `${rank + 1}` };
@@ -78,8 +78,8 @@ export function SleepCircle() {
                   }`}>
                     {friend.guardian}
                   </div>
-                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#0a0d14] ${
-                    friend.online ? 'bg-[#8063d2] shadow-[0_0_6px_rgba(128,99,210,0.4)]' : 'bg-white/[0.08]'
+                  <div className={`absolute -bottom-[1px] -right-[1px] w-[9px] h-[9px] rounded-full border-[2px] border-[#062726] ${
+                    friend.online ? 'bg-[#a06cd5] shadow-[0_0_6px_rgba(160,108,213,0.4)]' : 'bg-white/[0.08]'
                   }`} />
                 </div>
 
@@ -93,7 +93,7 @@ export function SleepCircle() {
                       <div
                         className={`h-full rounded-full transition-all duration-700 ease-out ${
                           i === 0
-                            ? 'bg-gradient-to-r from-[#6247AA] to-[#8063d2]'
+                            ? 'bg-gradient-to-r from-[#6247AA] to-[#a06cd5]'
                             : 'bg-white/[0.12]'
                         }`}
                         style={{ width: `${barW}%` }}
@@ -104,7 +104,7 @@ export function SleepCircle() {
                 </div>
 
                 <div className="text-right flex-shrink-0 ml-1">
-                  <p className="text-[16px] font-bold text-[#8063d2] tracking-[-0.02em]">{friend.score}</p>
+                  <p className="text-[16px] font-bold text-[#a06cd5] tracking-[-0.02em]">{friend.score}</p>
                   <p className="text-[8px] font-semibold text-white/25 uppercase tracking-[0.06em]">Score</p>
                 </div>
               </div>
@@ -118,13 +118,13 @@ export function SleepCircle() {
         <div className="flex items-center justify-around py-2">
           <div className="text-center">
             <p className="text-[11px] text-white/35">🥇 Meilleur score</p>
-            <p className="text-[20px] font-bold text-[#8063d2] mt-0.5">{maxScore}</p>
+            <p className="text-[20px] font-bold text-[#a06cd5] mt-0.5">{maxScore}</p>
             <p className="text-[10px] text-white/30">{sorted[0].name}</p>
           </div>
           <div className="w-[1px] h-[32px] bg-white/[0.04]" />
           <div className="text-center">
             <p className="text-[11px] text-white/35">🔥 Défis réussis</p>
-            <p className="text-[20px] font-bold text-[#b8a8e6] mt-0.5">
+            <p className="text-[20px] font-bold text-[#e2cfea] mt-0.5">
               {sorted.reduce((acc, f) => acc + f.defisReussis, 0)}
             </p>
             <p className="text-[10px] text-white/30">Total du groupe</p>

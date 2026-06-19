@@ -43,7 +43,7 @@ export function ConfirmStep({ title, onConfirm }: ConfirmStepProps) {
             {title}
           </h2>
 
-          <div className="bg-[#131627] border border-white/[0.06] rounded-2xl p-4 max-w-sm mx-auto text-left space-y-2.5">
+          <div className="bg-[#102b3f] border border-white/[0.06] rounded-2xl p-4 max-w-sm mx-auto text-left space-y-2.5">
             {promises.map((p, i) => (
               <div key={i} className="flex items-start gap-2.5">
                 <span className="text-sm mt-0.5 flex-shrink-0">{p.icon}</span>
@@ -59,7 +59,7 @@ export function ConfirmStep({ title, onConfirm }: ConfirmStepProps) {
               <div className="h-px w-12 bg-white/[0.06]" />
             </div>
             <div className="mt-2 flex justify-center">
-              <div className="w-[200px] h-10 rounded-lg bg-[#131627] border border-white/[0.06] flex items-center justify-center">
+              <div className="w-[200px] h-10 rounded-lg bg-[#102b3f] border border-white/[0.06] flex items-center justify-center">
                 <span className="text-[#6247AA] text-sm font-light italic tracking-wider">~ aventurier·ère de la nuit ~</span>
               </div>
             </div>
@@ -70,8 +70,8 @@ export function ConfirmStep({ title, onConfirm }: ConfirmStepProps) {
       <button
         ref={btnRef}
         onClick={handleSign}
-        className={`mt-6 px-10 py-3.5 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#8063d2] text-white font-semibold
-          shadow-lg shadow-[#6247AA]/20 hover:from-[#7C5CBF] hover:to-[#9c86dc] hover:shadow-xl hover:shadow-[#6247AA]/30
+        className={`mt-6 px-10 py-3.5 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#a06cd5] text-white font-semibold
+          shadow-lg shadow-[#6247AA]/20 hover:from-[#a06cd5] hover:to-[#e2cfea] hover:shadow-xl hover:shadow-[#6247AA]/30
           transition-all duration-200 text-sm active:scale-95
           ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
       >

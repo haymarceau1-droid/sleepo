@@ -46,7 +46,7 @@ function SleepChart({ data, color, label }: { data: number[]; color: string; lab
       </svg>
       <div className="flex justify-between w-[320px] mt-0.5">
         {weekDays.map((d, i) => (
-          <span key={d} className={`text-[8px] font-medium ${i === 6 ? 'text-[#8063d2]' : 'text-white/25'}`}>{d}</span>
+          <span key={d} className={`text-[8px] font-medium ${i === 6 ? 'text-[#a06cd5]' : 'text-white/25'}`}>{d}</span>
         ))}
       </div>
     </div>
@@ -62,11 +62,11 @@ function StreakCalendar({ history }: { history: boolean[] }) {
         const isToday = i === 6;
         return (
           <div key={day} className="flex flex-col items-center gap-1.5">
-            <span className={`text-[9px] font-semibold ${isToday ? 'text-[#8063d2]' : 'text-white/30'}`}>{day}</span>
+            <span className={`text-[9px] font-semibold ${isToday ? 'text-[#a06cd5]' : 'text-white/30'}`}>{day}</span>
             <div
               className={`w-[32px] h-[32px] rounded-full flex items-center justify-center text-[13px] transition-all duration-500 ${
                 isToday
-                  ? 'bg-gradient-to-br from-[#6247AA] to-[#8063d2] shadow-[0_0_12px_rgba(98,71,170,0.4)] scale-110'
+                  ? 'bg-gradient-to-br from-[#6247AA] to-[#a06cd5] shadow-[0_0_12px_rgba(98,71,170,0.4)] scale-110'
                   : done
                     ? 'bg-[#6247AA]/20 text-white/80'
                     : 'bg-white/[0.04] text-white/20'
@@ -180,9 +180,9 @@ export function Home() {
           <span className="text-[16px]">😴</span>
           <p className="text-[13px] font-semibold text-white/90">Temps de sommeil</p>
         </div>
-        <SleepChart data={mockSleepData} color="#8063d2" label="sleep" />
+        <SleepChart data={mockSleepData} color="#a06cd5" label="sleep" />
         <div className="text-center mt-2">
-          <p className="text-[20px] font-bold text-[#8063d2]">{avgSleep}h</p>
+          <p className="text-[20px] font-bold text-[#a06cd5]">{avgSleep}h</p>
           <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
         </div>
       </GlassCard>
@@ -192,21 +192,21 @@ export function Home() {
           <span className="text-[16px]">⚡</span>
           <p className="text-[13px] font-semibold text-white/90">Niveau d'énergie</p>
         </div>
-        <SleepChart data={mockEnergyData} color="#b8a8e6" label="energy" />
+        <SleepChart data={mockEnergyData} color="#e2cfea" label="energy" />
         <div className="text-center mt-2">
-          <p className="text-[20px] font-bold text-[#b8a8e6]">{avgEnergy}/10</p>
+          <p className="text-[20px] font-bold text-[#e2cfea]">{avgEnergy}/10</p>
           <p className="text-[9px] text-white/30">Moyenne 7 nuits</p>
         </div>
       </GlassCard>
 
       <GlassCard className="p-[18px] flex items-center gap-3 aa-card">
-        <div className="w-[48px] h-[48px] rounded-[14px] bg-gradient-to-br from-[#6247AA]/20 to-[#8063d2]/10 flex items-center justify-center text-[22px] animate-bounce" style={{ animationDuration: '2s' }}>
+        <div className="w-[48px] h-[48px] rounded-[14px] bg-gradient-to-br from-[#6247AA]/20 to-[#a06cd5]/10 flex items-center justify-center text-[22px] animate-bounce" style={{ animationDuration: '2s' }}>
           {ritualEmoji()}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <p className="text-[13px] font-semibold text-white/90">Mission du jour</p>
-            <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-[#6247AA]/15 text-[#b8a8e6]">✨</span>
+            <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-[#6247AA]/15 text-[#e2cfea]">✨</span>
           </div>
           <p className="text-[12px] text-white/60 mt-0.5">{ritualLabel()}</p>
         </div>
@@ -220,7 +220,7 @@ export function Home() {
           </div>
           <button
             onClick={() => navigate('/sleepcircle')}
-            className="text-[11px] font-medium text-[#8063d2] hover:text-[#9c86dc] transition-colors"
+            className="text-[11px] font-medium text-[#a06cd5] hover:text-[#e2cfea] transition-colors"
           >
             Voir tout →
           </button>
@@ -232,8 +232,8 @@ export function Home() {
                 <div className="w-[40px] h-[40px] rounded-full bg-white/[0.04] flex items-center justify-center text-[17px]">
                   {friend.emoji}
                 </div>
-                <div className={`absolute -bottom-[1px] -right-[1px] w-[10px] h-[10px] rounded-full border-2 border-[#0a0d14] ${
-                  friend.online ? 'bg-[#8063d2] shadow-[0_0_6px_rgba(128,99,210,0.4)]' : 'bg-white/[0.08]'
+                <div className={`absolute -bottom-[1px] -right-[1px] w-[10px] h-[10px] rounded-full border-2 border-[#062726] ${
+                  friend.online ? 'bg-[#a06cd5] shadow-[0_0_6px_rgba(160,108,213,0.4)]' : 'bg-white/[0.08]'
                 }`} />
               </div>
               <p className="text-[11px] font-medium text-white/80">{friend.name}</p>

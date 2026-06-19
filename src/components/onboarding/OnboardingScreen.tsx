@@ -112,7 +112,7 @@ export function OnboardingScreen() {
             <div className="flex justify-center mt-8">
               <button
                 onClick={handleSliderContinue}
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#8063d2] text-white font-medium text-sm hover:from-[#7C5CBF] hover:to-[#9c86dc] transition-all duration-300"
+                className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#a06cd5] text-white font-medium text-sm hover:from-[#a06cd5] hover:to-[#e2cfea] transition-all duration-300"
               >
                 Continuer
               </button>
@@ -138,7 +138,7 @@ export function OnboardingScreen() {
       <div className="flex-1 flex flex-col max-w-lg mx-auto w-full px-6 pt-8 pb-12 relative z-10">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-[36px] h-[36px] rounded-full bg-gradient-to-br from-[#6247AA] to-[#8063d2] flex items-center justify-center">
+            <div className="w-[36px] h-[36px] rounded-full bg-gradient-to-br from-[#6247AA] to-[#a06cd5] flex items-center justify-center">
               <span className="text-[16px]">🌙</span>
             </div>
             <span className="text-sm font-semibold text-white tracking-tight">Sleepo</span>
@@ -146,7 +146,7 @@ export function OnboardingScreen() {
           {!isFirst && (
             <button
               onClick={handlePrev}
-              className="text-[#8063d2] hover:text-[#b8a8e6] text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.03]"
+              className="text-[#a06cd5] hover:text-[#e2cfea] text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.03]"
             >
               ← Retour
             </button>
@@ -159,7 +159,7 @@ export function OnboardingScreen() {
               key={i}
               className={`h-[6px] rounded-full transition-all duration-500 ${
                 i <= currentIndex
-                  ? 'w-[24px] bg-gradient-to-r from-[#6247AA] to-[#8063d2]'
+                  ? 'w-[24px] bg-gradient-to-r from-[#6247AA] to-[#a06cd5]'
                   : 'w-[6px] bg-white/[0.08]'
               }`}
             />

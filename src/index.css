@@ -16,13 +16,13 @@
   body {
     @apply bg-aave-bg text-white min-h-screen overflow-x-hidden;
     background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(98, 71, 170, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(124, 92, 191, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 80%, rgba(147, 51, 234, 0.04) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 50%, rgba(98,71,170,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(160,108,213,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(98,71,170,0.04) 0%, transparent 50%);
   }
 
   ::selection {
-    @apply bg-[#6247AA]/30 text-white;
+    @apply bg-[#6247aa]/30 text-white;
   }
 }
 
@@ -30,7 +30,7 @@
   .glass-card {
     position: relative;
     border-radius: 20px;
-    background: rgba(19, 22, 39, 0.7);
+    background: rgba(16, 43, 63, 0.7);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.04);
@@ -54,11 +54,11 @@
 
   .glass-button {
     @apply rounded-[14px] font-semibold text-[15px] tracking-[-0.01em] transition-all duration-200;
-    background: rgba(98, 71, 170, 0.85);
+    background: rgba(98,71,170, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 0.5px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 2px 8px rgba(98, 71, 170, 0.25);
+    box-shadow: 0 2px 8px rgba(98,71,170, 0.25);
   }
 
   .glass-button:active {
@@ -124,8 +124,8 @@
   }
 
   .glass-input:focus {
-    border-color: rgba(98, 71, 170, 0.3);
-    box-shadow: 0 0 0 3px rgba(98, 71, 170, 0.06);
+    border-color: rgba(98,71,170, 0.3);
+    box-shadow: 0 0 0 3px rgba(98,71,170, 0.06);
   }
 }
 
@@ -160,8 +160,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(98, 71, 170, 0.08); }
-  50% { box-shadow: 0 0 20px rgba(98, 71, 170, 0.2); }
+  0%, 100% { box-shadow: 0 0 8px rgba(98,71,170, 0.08); }
+  50% { box-shadow: 0 0 20px rgba(98,71,170, 0.2); }
 }
 
 @keyframes shimmer {

@@ -50,13 +50,13 @@ export function Slider({ value, onChange, min, max, step, unit, labels }: Slider
       >
         <div className="absolute inset-x-0 h-2 bg-white/[0.06] rounded-full">
           <div
-            className="h-full bg-gradient-to-r from-[#6247AA]/60 to-[#8063d2]/60 rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-[#6247AA]/60 to-[#a06cd5]/60 rounded-full transition-all duration-300"
             style={{ width: `${percentage}%` }}
           />
         </div>
 
         <div
-          className="absolute w-6 h-6 bg-white rounded-full shadow-lg shadow-[#6247AA]/20 border-2 border-[#8063d2]/50 transition-transform duration-150 hover:scale-110 cursor-grab active:cursor-grabbing"
+          className="absolute w-6 h-6 bg-white rounded-full shadow-lg shadow-[#6247AA]/20 border-2 border-[#a06cd5]/50 transition-transform duration-150 hover:scale-110 cursor-grab active:cursor-grabbing"
           style={{
             left: `calc(${percentage}% - 12px)`,
           }}

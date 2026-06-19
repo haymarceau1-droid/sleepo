@@ -72,17 +72,17 @@ export function Evening() {
       <GlassCard className="p-[16px] flex items-center justify-between aa-card">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-2.5">
-            <div className="w-[10px] h-[10px] rounded-full bg-[#8063d2] shadow-[0_0_12px_rgba(128,99,210,0.3)] animate-breathe" />
+            <div className="w-[10px] h-[10px] rounded-full bg-[#a06cd5] shadow-[0_0_12px_rgba(160,108,213,0.3)] animate-breathe" />
             <span className="text-[12px] font-medium text-white/90">Statut du soir</span>
           </div>
         </div>
-        <span className="text-[10px] font-semibold px-3 py-1 rounded-full bg-[#6247AA]/15 text-[#b8a8e6]">
+        <span className="text-[10px] font-semibold px-3 py-1 rounded-full bg-[#6247aa]/15 text-[#e2cfea]">
           Prêt
         </span>
       </GlassCard>
 
       <GlassCard className="p-[22px] flex flex-col items-center text-center aa-card">
-        <div className="w-[70px] h-[70px] rounded-full bg-[#6247AA]/10 flex items-center justify-center text-[34px] mb-3.5 animate-float" style={{ animationDelay: '0.3s' }}>
+        <div className="w-[70px] h-[70px] rounded-full bg-[#6247aa]/10 flex items-center justify-center text-[34px] mb-3.5 animate-float" style={{ animationDelay: '0.3s' }}>
           {ritualEmoji()}
         </div>
         <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-white mb-1.5">La Carte Mission</h3>
@@ -93,7 +93,7 @@ export function Evening() {
             : 'Une micro-action pour préparer ton corps et ton esprit au sommeil.'}
         </p>
         {jokerUsed && (
-          <div className="mt-3.5 px-3 py-1.5 rounded-full bg-[#6247AA]/15 text-[#b8a8e6] text-[12px] font-medium">
+          <div className="mt-3.5 px-3 py-1.5 rounded-full bg-[#6247aa]/15 text-[#e2cfea] text-[12px] font-medium">
             🃏 Joker activé
           </div>
         )}
@@ -124,7 +124,7 @@ export function Evening() {
             <div key={friend.name} className="flex items-center justify-between py-1">
               <div className="flex items-center gap-2.5">
                 <div className={`w-[32px] h-[32px] rounded-full flex items-center justify-center text-[14px] ${
-                  friend.done ? 'bg-[#6247AA]/15' : 'bg-white/[0.03]'
+                  friend.done ? 'bg-[#6247aa]/15' : 'bg-white/[0.03]'
                 }`}>
                   {friend.done ? '✅' : friend.name[0]}
                 </div>
@@ -135,7 +135,7 @@ export function Evening() {
               </div>
               <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${
                 friend.done
-                  ? 'text-[#8063d2] bg-[#6247AA]/15'
+                  ? 'text-[#a06cd5] bg-[#6247aa]/15'
                   : 'text-white/25 bg-white/[0.03]'
               }`}>
                 {friend.done ? 'Fait' : 'En cours'}

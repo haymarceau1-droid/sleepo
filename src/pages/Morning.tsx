@@ -46,11 +46,11 @@ export function Morning() {
 
         <div className="grid grid-cols-3 gap-3 mb-4">
           <div className="bg-white/[0.02] rounded-[12px] p-3 text-center">
-            <p className="text-[24px] font-bold text-[#8063d2]">{streak.currentStreak}</p>
+            <p className="text-[24px] font-bold text-[#a06cd5]">{streak.currentStreak}</p>
             <p className="text-[10px] text-white/35 mt-1 uppercase tracking-[0.04em]">Série</p>
           </div>
           <div className="bg-white/[0.02] rounded-[12px] p-3 text-center">
-            <p className="text-[24px] font-bold text-[#8063d2]">
+            <p className="text-[24px] font-bold text-[#a06cd5]">
               {answers.idealBedtime ?? '-'}<span className="text-[14px] text-white/40">h</span>
             </p>
             <p className="text-[10px] text-white/35 mt-1 uppercase tracking-[0.04em]">Coucher</p>
@@ -62,7 +62,7 @@ export function Morning() {
         </div>
 
         <div className="bg-[#6247AA]/10 rounded-[10px] p-3">
-          <p className="text-[12px] text-[#b8a8e6] text-center leading-relaxed">
+          <p className="text-[12px] text-[#e2cfea] text-center leading-relaxed">
             {streak.currentStreak > 0
               ? `🔥 ${streak.currentStreak} nuits d'affilée. Continue comme ça !`
               : "🌱 Pas de pression. Ce soir est une nouvelle chance."}
@@ -89,7 +89,7 @@ export function Morning() {
                 </div>
                 <div className="w-full h-[5px] rounded-full bg-white/[0.04] overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#6247AA] to-[#8063d2]"
+                    className="h-full rounded-full bg-gradient-to-r from-[#6247AA] to-[#a06cd5]"
                     style={{ width: `${(friend.hours / maxHours) * 100}%`, transition: 'width 0.8s ease 0.3s' }}
                   />
                 </div>

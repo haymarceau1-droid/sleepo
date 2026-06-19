@@ -50,8 +50,8 @@ export function NarrativeStep({ question, onContinue }: NarrativeStepProps) {
       {onContinue && (
         <button
           onClick={onContinue}
-          className={`mt-8 px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#8063d2] text-white font-semibold text-sm
-            shadow-lg shadow-[#6247AA]/20 hover:from-[#7C5CBF] hover:to-[#9c86dc] transition-all duration-300
+          className={`mt-8 px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#6247AA] to-[#a06cd5] text-white font-semibold text-sm
+            shadow-lg shadow-[#6247AA]/20 hover:from-[#a06cd5] hover:to-[#e2cfea] transition-all duration-300
             ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
         >
           {question.id === 10 ? 'Signer la charte' : 'Continuer'}
