@@ -9,6 +9,7 @@ import { Evening } from './pages/Evening';
 import { Morning } from './pages/Morning';
 import { SleepCircle } from './pages/SleepCircle';
 import { Settings } from './pages/Settings';
+import { ScreenTimePermission } from './pages/ScreenTimePermission';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const onboardingComplete = useGameStore((s) => s.onboardingComplete);
@@ -58,6 +59,10 @@ function AppRoutes() {
       <Route
         path="/settings"
         element={<ProtectedRoute><Settings /></ProtectedRoute>}
+      />
+      <Route
+        path="/screen-time-permission"
+        element={<SimpleRoute><ScreenTimePermission /></SimpleRoute>}
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

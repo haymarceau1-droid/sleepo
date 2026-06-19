@@ -123,6 +123,18 @@ export function Settings() {
         </div>
       </GlassCard>
 
+      {/* Autorisations */}
+      <GlassCard className="p-[16px] aa-card">
+        <h3 className="text-[13px] font-semibold text-white/80 mb-3">Autorisations</h3>
+        <button
+          onClick={() => navigate('/screen-time-permission')}
+          className="w-full text-left py-2.5 px-3 rounded-[10px] bg-white/[0.02] text-[12px] text-white/60 hover:bg-white/[0.04] transition-colors flex items-center justify-between"
+        >
+          <span>🍎 Accès au Temps d'Écran</span>
+          <span className="text-white/20">→</span>
+        </button>
+      </GlassCard>
+
       {/* About */}
       <GlassCard className="p-[16px] aa-card">
         <h3 className="text-[13px] font-semibold text-white/80 mb-3">À propos</h3>
