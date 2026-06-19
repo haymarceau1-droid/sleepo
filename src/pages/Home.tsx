@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGameStore } from '../store/useGameStore';
@@ -50,6 +50,10 @@ export function Home() {
   const rootRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const flameRef = useRef<HTMLDivElement>(null);
+  const lockRef = useRef<HTMLDivElement>(null);
+  const padlockRef = useRef<HTMLDivElement>(null);
+  const [sleepLock, setSleepLock] = useState(false);
+  const pressTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -84,6 +88,28 @@ export function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!sleepLock || !lockRef.current) return;
+    const lock = lockRef.current;
+    const padlock = padlockRef.current;
+
+    gsap.fromTo(lock,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.6, ease: 'power2.out' }
+    );
+
+    if (padlock) {
+      gsap.to(padlock, {
+        scale: 1.05,
+        duration: 0.6,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+        delay: 0.5,
+      });
+    }
+  }, [sleepLock]);
+
   const goalLabel = () => {
     switch (answers.mainGoal) {
       case 'doomscrolling': return 'Éteindre tout à 22h';
@@ -95,6 +121,7 @@ export function Home() {
   };
 
   return (
+    <>
     <div ref={rootRef} className="flex flex-col px-4 pt-3 pb-4 gap-[11px]">
       {/* Carte 1: Streak */}
       <GlassCard className="p-[18px] aa-card">
@@ -161,7 +188,7 @@ export function Home() {
 
       {/* Big CTA */}
       <div className="mt-2">
-        <GlassButton onClick={() => navigate('/evening')} className="w-full h-[56px] text-[17px]">
+        <GlassButton onClick={() => setSleepLock(true)} className="w-full h-[56px] text-[17px]">
           🌙 JE VAIS DORMIR
         </GlassButton>
       </div>
@@ -183,5 +210,48 @@ export function Home() {
         </button>
       </div>
     </div>
+
+    {/* Sleep Lock Overlay */}
+    {sleepLock && (
+      <div
+        ref={lockRef}
+        className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+        style={{
+          background: 'radial-gradient(ellipse at center, #0a1628 0%, #060a12 100%)',
+        }}
+        onPointerDown={() => {
+          pressTimerRef.current = window.setTimeout(() => {
+            setSleepLock(false);
+          }, 1200);
+        }}
+        onPointerUp={() => {
+          if (pressTimerRef.current) {
+            clearTimeout(pressTimerRef.current);
+            pressTimerRef.current = null;
+          }
+        }}
+        onPointerLeave={() => {
+          if (pressTimerRef.current) {
+            clearTimeout(pressTimerRef.current);
+            pressTimerRef.current = null;
+          }
+        }}
+      >
+        <div ref={padlockRef} className="text-[80px] mb-6">🔒</div>
+        <h2 className="text-[24px] font-bold text-white mb-2">Bonne nuit.</h2>
+        <p className="text-[14px] text-white/40 text-center max-w-xs leading-relaxed mb-12">
+          Pose ton téléphone.<br />Tu as mérité ton repos.
+        </p>
+        <div className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-1">
+          <div className="w-[60px] h-[60px] rounded-full border-2 border-white/[0.06] flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" className="opacity-30" strokeLinecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <p className="text-[10px] text-white/15 mt-1">Maintiens pour déverrouiller</p>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
