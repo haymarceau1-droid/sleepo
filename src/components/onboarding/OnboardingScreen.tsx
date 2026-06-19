@@ -174,7 +174,7 @@ export function OnboardingScreen() {
           key={currentIndex}
           className="flex-1 animate-glass-fade"
         >
-          {currentIndex > 0 && (
+          {currentIndex > 0 && question.kind !== 'confirm' && (
             <h2 className="text-2xl font-semibold text-white mb-2 leading-snug">
               {question.title}
             </h2>
